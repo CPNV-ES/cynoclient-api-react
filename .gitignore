@@ -1,5 +1,7 @@
 diff
-.idea/*
+.idea
+*.iml
+.vscode
 .nyc_output
 build
 node_modules
@@ -8,3 +10,5 @@ src/**.js
 coverage
 *.log
 yarn.lock
+dist
+*.js
