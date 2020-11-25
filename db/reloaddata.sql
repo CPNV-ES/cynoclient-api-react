@@ -4575,7 +4575,7 @@ INSERT INTO clients_take_services (id, id_client, id_service, dogs_id, paid) VAL
 (11, 10, 11, 11, 1),
 (12, 11, 12, 12, 1),
 (13, 12, 13, 13, 1),
-(14, 12, 14, 14, 1);
+(14, 12, 14, 1, 1);
 
 -- -----------------------------------------------------
 -- Insert `cynoclient`.`consultations`

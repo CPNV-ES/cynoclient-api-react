@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `cynoclient`.`clients_take_services` (
   PRIMARY KEY (`id`),
   INDEX `fk_clients_clients_take_services_idx` (`id_client` ASC),
   INDEX `fk_services_clients_take_services_idx` (`id_service` ASC),
-  INDEX `fk_clients_take_services_dogs1_idx` (`dogs_id` ASC),
+  INDEX `fk_clients_take_services_dogs_idx` (`dogs_id` ASC),
   CONSTRAINT `fk_clients_clients_take_services`
     FOREIGN KEY (`id_client`)
     REFERENCES `cynoclient`.`clients` (`id`)
@@ -181,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `cynoclient`.`clients_take_services` (
     REFERENCES `cynoclient`.`services` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `fk_clients_take_services_dogs1`
+  CONSTRAINT `fk_clients_take_services_dogs`
     FOREIGN KEY (`dogs_id`)
     REFERENCES `cynoclient`.`dogs` (`id`)
     ON DELETE NO ACTION
