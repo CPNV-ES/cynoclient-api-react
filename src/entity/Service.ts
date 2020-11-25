@@ -13,7 +13,7 @@ export class Service {
     @Column({
         type: "decimal"
     })  
-    duration: string
+    duration: number
     @Column({
         type: "varchar",
         length: 50
@@ -32,8 +32,7 @@ export class Service {
     })  
     street: string
     @Column({
-        type: "int",
-        length: 255
+        type: "int"
     })  
     id_locality: number
 }

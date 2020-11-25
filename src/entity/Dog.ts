@@ -25,7 +25,7 @@ export class Dog {
         type: "tinyint",
         length: 1
     })  
-    sterilized: number
+    sterilized: boolean
     @Column({
         type: "tinyint",
         length: 1

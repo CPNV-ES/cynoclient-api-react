@@ -14,11 +14,11 @@ export class Locality {
     @Column({
         type: "int"
     })  
-    zip: string
+    zip: number
     @Column({
         type: "int"
     })  
-    zip_complement: string
+    zip_complement: number
     @Column({
         type: "varchar",
         length: 45
