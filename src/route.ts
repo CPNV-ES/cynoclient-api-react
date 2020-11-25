@@ -9,7 +9,9 @@ export function route(app: Application) {
         .get(dogController.get);
 
     app.route("/clients")
-        .get(clientController.getAll);
+        .get(clientController.getAll)
+        .post(clientController.post);
+
     app.route("/clients/:clientId")
         .get(clientController.get);
 
