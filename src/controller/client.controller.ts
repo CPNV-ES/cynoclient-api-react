@@ -4,7 +4,12 @@ export async function getAll(req: Request, res: Response) {
     res.status(200).send(data.map(convertObject));
 }
 export async function get(req: Request, res: Response) {
-    res.status(200).send(convertObject(data.find(client=>(client.id == parseInt(req.params.clientId)))));
+    let cli = data.find(client => (client.id == parseInt(req.params.clientId)));
+    if (cli) {
+        res.status(200).send(convertObject(cli));
+    } else {
+        res.status(404).send(`client ${req.params.clientId} not found`)
+    }
 }
 function convertObject(source) {
     return {...source, isFemale: !!source.female}
