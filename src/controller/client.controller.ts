@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 
 export async function getAll(req: Request, res: Response) {
-    res.status(200).send({list: data.map(convertObject)});
+    res.status(200).send(data.map(convertObject));
 }
 export async function get(req: Request, res: Response) {
     res.status(200).send(convertObject(data.find(client=>(client.id == parseInt(req.params.clientId)))));
