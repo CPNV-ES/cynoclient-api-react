@@ -7,7 +7,7 @@ import {User} from "./entity/User";
 
 import {route} from "./route";
 
-const port = 3000;
+const port = 8000;
 const ip = "0.0.0.0";
 const app = express();
 
