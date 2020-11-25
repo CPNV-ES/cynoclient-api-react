@@ -1,6 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
 
-@Entity()
+@Entity({name: 'clients'})
 export class Client {
     @PrimaryGeneratedColumn({
         type: "int",
@@ -17,7 +17,8 @@ export class Client {
     }) 
     lastname: string;
     @Column({
-
+        type: "tinyint",
+        length: 1,
     }) 
     female: boolean;
     @Column({
@@ -42,5 +43,4 @@ export class Client {
         nullable: true
     }) 
     id_locality: number;
-
 }

@@ -1,13 +1,14 @@
-import * as bodyParser from "body-parser";
-import * as cors from "cors";
-import * as express from 'express';
-import "reflect-metadata";
-import {createConnection} from "typeorm";
-import {User} from "./entity/User";
+import bodyParser from "body-parser";
+import cors from "cors";
+import dotenv from "dotenv";
+import express from "express";
+
 
 import {route} from "./route";
 
-const port = 8000;
+dotenv.config();
+
+const port = 3000;
 const ip = "0.0.0.0";
 const app = express();
 
@@ -23,20 +24,23 @@ app.listen(port, ip, () => {
 
 
 
-// Example
+//example I think
+import "reflect-metadata";
+import {createConnection} from "typeorm";
+import {Client} from "./entity/Client";
 createConnection().then(async connection => {
 
     console.log("Inserting a new user into the database...");
-    const user = new User();
-    user.firstName = "Timber";
-    user.lastName = "Saw";
-    user.age = 25;
-    await connection.manager.save(user);
-    console.log("Saved a new user with id: " + user.id);
+    const client = new Client();
+    client.firstname = "Timber";
+    client.lastname = "Saw";
+    client.email = "test@test.test";
+    await connection.manager.save(client);
+    console.log("Saved a new user with id: " + client.id);
 
     console.log("Loading users from the database...");
-    const users = await connection.manager.find(User);
-    console.log("Loaded users: ", users);
+    const clients = await connection.manager.find(Client);
+    console.log("Loaded users: ", clients);
 
     console.log("Here you can setup and run express/koa/any other framework.");
 
