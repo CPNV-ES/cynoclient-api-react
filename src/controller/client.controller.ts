@@ -1,7 +1,13 @@
 import {Request, Response} from "express";
 
+export async function getAll(req: Request, res: Response) {
+    res.status(200).send({list: data.map(convertObject)});
+}
 export async function get(req: Request, res: Response) {
-    res.status(200).send({list: data});
+    res.status(200).send(convertObject(data.find(client=>(client.id == parseInt(req.params.clientId)))));
+}
+function convertObject(source) {
+    return {...source, isFemale: !!source.female}
 }
         
 var data = [

@@ -1,14 +1,13 @@
-import bodyParser from "body-parser";
-import cors from "cors";
-import dotenv from "dotenv";
-import express from "express";
-
+import * as bodyParser from "body-parser";
+import * as cors from "cors";
+import * as express from 'express';
+import "reflect-metadata";
+import {createConnection} from "typeorm";
+import {User} from "./entity/User";
 
 import {route} from "./route";
 
-dotenv.config();
-
-const port = 3000;
+const port = 8000;
 const ip = "0.0.0.0";
 const app = express();
 
@@ -24,10 +23,7 @@ app.listen(port, ip, () => {
 
 
 
-//example I think
-import "reflect-metadata";
-import {createConnection} from "typeorm";
-import {User} from "./entity/User";
+// Example
 createConnection().then(async connection => {
 
     console.log("Inserting a new user into the database...");
