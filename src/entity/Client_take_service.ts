@@ -19,7 +19,8 @@ export class Client_take_service {
     })  
     dogs_id: number
     @Column({
+        name: 'paid',
         type: "boolean"
     })  
-    paid: boolean
+    isPaid: boolean
 }

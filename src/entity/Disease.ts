@@ -32,11 +32,13 @@ export class Disease {
     })  
     curative: string
     @Column({
-        type: "boolean",
+        name: "vaccinable",
+        type: "boolean"
     })  
-    vaccinable: boolean
+    isVaccinable: boolean
     @Column({
-        type: "boolean",
+        name: "zoonosis",
+        type: "boolean"
     })  
-    zoonosis: boolean
+    isZoonosis: boolean
 }
