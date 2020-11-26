@@ -14,7 +14,8 @@ export function route(app: Application) {
 
     app.route("/clients/:clientId")
         .get(clientController.get)
-        .patch(clientController.update);
+        .patch(clientController.update)
+        .delete(clientController.remove);
 
     app.route("/breed")
         .get(breedController.get);
