@@ -13,7 +13,8 @@ export function route(app: Application) {
         .post(clientController.create);
 
     app.route("/clients/:clientId")
-        .get(clientController.get);
+        .get(clientController.get)
+        .patch(clientController.update);
 
     app.route("/breed")
         .get(breedController.get);
