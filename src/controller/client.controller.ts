@@ -22,7 +22,7 @@ export async function get(req: Request, res: Response) {
     }
 }
 
-export async function post(req: Request, res: Response) {
+export async function create(req: Request, res: Response) {
     const connection = await getConnection();
     try {
         await connection.getRepository(Client).insert(req.body);

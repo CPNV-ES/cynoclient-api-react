@@ -10,7 +10,7 @@ export function route(app: Application) {
 
     app.route("/clients")
         .get(clientController.getAll)
-        .post(clientController.post);
+        .post(clientController.create);
 
     app.route("/clients/:clientId")
         .get(clientController.get);
