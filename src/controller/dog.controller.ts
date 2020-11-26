@@ -32,3 +32,22 @@ export async function create(req: Request, res: Response) {
 		res.status(404).send("Error while inserting Dog");
 	}
 }
+export async function update(req: Request, res: Response) {
+	const connection = await getConnection();
+	try {
+		await connection.getRepository(Dog).update(req.params.dogId, req.body);
+		res.status(200).send("OK");
+	} catch (error) {
+		res.status(404).send("Error while update Dog");
+	}
+}
+
+export async function remove(req: Request, res: Response) {
+	const connection = await getConnection();
+	try {
+		await connection.getRepository(Dog).delete(req.params.dogId);
+		res.status(200).send("OK");
+	} catch (error) {
+		res.status(404).send("Error while remove Dog");
+	}
+}
