@@ -13,7 +13,7 @@ export class Dog {
     })  
     noun: string
     @Column({
-        type: "tinyint",
+        type: "boolean",
         nullable: true
     })  
     female: boolean
@@ -22,11 +22,11 @@ export class Dog {
     })  
     birthdate: string
     @Column({
-        type: "tinyint"
+        type: "boolean"
     })  
-    sterilized: number
+    sterilized: boolean
     @Column({
-        type: "tinyint"
+        type: "boolean"
     })  
     chemical: boolean
     @Column({
@@ -36,7 +36,7 @@ export class Dog {
     })  
     color: string
     @Column({
-        type: "tinyint"
+        type: "boolean"
     })  
     dead: boolean
     @Column({

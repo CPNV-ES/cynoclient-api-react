@@ -6,6 +6,9 @@ import { Application } from "express";
 
 export function route(app: Application) {
     app.route("/dogs")
+        .get(dogController.getAll)
+        .post(dogController.create);
+    app.route("/dogs/:dogId")
         .get(dogController.get);
 
     app.route("/clients")
