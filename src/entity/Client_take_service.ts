@@ -19,8 +19,7 @@ export class Client_take_service {
     })  
     dogs_id: number
     @Column({
-        type: "tinyint",
-        length: 1
+        type: "boolean"
     })  
     paid: boolean
 }

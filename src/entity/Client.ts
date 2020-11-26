@@ -17,8 +17,7 @@ export class Client {
     }) 
     lastname: string;
     @Column({
-        type: "tinyint",
-        length: 1,
+        type: "boolean"
     }) 
     female: boolean;
     @Column({

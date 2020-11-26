@@ -32,13 +32,11 @@ export class Disease {
     })  
     curative: string
     @Column({
-        type: "tinyint",
-        length: 1
+        type: "boolean",
     })  
     vaccinable: boolean
     @Column({
-        type: "tinyint",
-        length: 1
+        type: "boolean",
     })  
     zoonosis: boolean
 }
