@@ -1,4 +1,3 @@
-
 import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
 
 @Entity({name: 'dogs'})
@@ -13,22 +12,25 @@ export class Dog {
     })  
     noun: string
     @Column({
+        name: "female",
         type: "boolean",
         nullable: true
     })  
-    female: boolean
+    isFemale: boolean
     @Column({
-        type: "date",
+        type: "date"
     })  
     birthdate: string
     @Column({
+        name: "sterilized",
         type: "boolean"
     })  
-    sterilized: boolean
+    isSterilized: boolean
     @Column({
+        name: "chemical",
         type: "boolean"
     })  
-    chemical: boolean
+    isChemical: boolean
     @Column({
         type: "varchar",
         length: 50,
@@ -36,11 +38,12 @@ export class Dog {
     })  
     color: string
     @Column({
+        name: "dead",
         type: "boolean"
     })  
-    dead: boolean
+    isDead: boolean
     @Column({
-        type: "int",
+        type: "int"
     })  
     id_client: number
     @Column({

@@ -17,9 +17,10 @@ export class Client {
     }) 
     lastname: string;
     @Column({
+        name: "female",
         type: "boolean"
     }) 
-    female: boolean;
+    isFemale: boolean;
     @Column({
         type: "varchar",
         length: 255,
