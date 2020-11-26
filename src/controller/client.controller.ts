@@ -6,7 +6,7 @@ export async function getAll(req: Request, res: Response) {
     const connection = await getConnection();
     try {
         const clients = await connection.getRepository(Client).find();
-        res.status(200).send({list: clients.map(convertObject)});
+        res.status(200).send(clients.map(convertObject));
     } catch(error) {
         res.status(404).send("Error");
     }
