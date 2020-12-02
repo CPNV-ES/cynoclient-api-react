@@ -2,6 +2,7 @@ import * as dogController from "./controller/dog.controller";
 import * as clientController from "./controller/client.controller";
 import * as breedController from "./controller/breed.controller";
 import * as diseasesController from "./controller/diseases.controller";
+import * as localityController from "./controller/locality.controller";
 import { Application } from "express";
 
 export function route(app: Application) {
@@ -27,4 +28,12 @@ export function route(app: Application) {
 
     app.route("/diseases")
         .get(diseasesController.get);
+
+    app.route("/localities")
+        .get(localityController.getAll)
+        .post(localityController.create);
+    app.route("/localities/:localityId")
+        .get(localityController.get)
+        .patch(localityController.update)
+        .delete(localityController.remove);
 }
