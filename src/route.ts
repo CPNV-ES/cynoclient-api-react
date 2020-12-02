@@ -23,6 +23,15 @@ export function route(app: Application) {
         .patch(clientController.update)
         .delete(clientController.remove);
 
+    app.route("/diseases")
+        .get(diseasesController.getAll)
+        .post(diseasesController.create);
+
+    app.route("/diseases/:diseaseId")
+        .get(diseasesController.get)
+        .patch(diseasesController.update)
+        .delete(diseasesController.remove);
+
     app.route("/breed")
         .get(breedController.get);
 

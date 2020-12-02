@@ -1,278 +1,53 @@
 import {Request, Response} from "express";
+import {getConnection} from "./db.controller";
+import {Disease} from "../entity/Disease";
 
-export async function get(req: Request, res: Response) { 
-    res.status(200).send({list: data});
+export async function getAll(req: Request, res: Response) {
+    const connection = await getConnection();
+    try {
+        const diseases = await connection.getRepository(Disease).find();
+        res.status(200).send(diseases);
+    } catch(error) {
+        res.status(404).send("Error");
+    }
 }
 
-var data = [
-    {
-        "id": 1,
-        "noun": "Anémie du chien",
-        "description": "L’anémie chez le chien est une pathologie due à la baisse du taux sanguin d’hémoglobine.\n\nCette insuffisance de globule rouge entraine une mauvaise libération de l’oxygène dans l’organisme.\n\nOn distingue 2 types d’anémie :\n\nL’anémie non régénérative consécutive à une baisse de production d’hémoglobine, provoquée soit par une affection de la moelle osseuse, une affection systémique (insuffisance rénale, insuffisance immunitaire, problème de thyroïde …etc.) ou encore un déficit en fer, protéines ou vitamine B12.\nL’anémie régénérative due à une destruction des globules rouges et provoquée par soit une hémorragie, une infestation de parasites, un ulcère de l’intestin, une inflammation du système immunitaire, une tumeur sanglante d’un organe, une intervention chirurgicale, un traumatisme ou une ingestion de produit toxique.\n\nTrès important : En cas de moindre doute, allez consulter votre vétérinaire rapidement.",
-        "symptoms": "Perte de poids\nManque d’appétit\nAbattement\nPouls faible\nFatigue inhabituelle\nPâleur des muqueuses de la bouche, des yeux, des parties génitales\nRalentissement du rythme cardiaque\nRalentissement de la fréquence respiratoire",
-        "preventive": "Il n’y a pas de traitement préventif hormis donner une alimentation très équilibrée en vitamines et protéines ainsi qu’un traitement anti parasitaire régulier afin d’éviter la présence inopportune de parasites, que ce soit sous forme de vermifuge et de solutions externes (collier, pipette).",
-        "curative": "Le traitement sera prescrit en fonction de la cause de cette anémie.\n\nUn prélèvement sanguin sera automatiquement effectué afin de déterminer le taux d’hémoglobine et de définir au plus tôt la cause et l’importance de l’anémie.\n\nEn fonction du diagnostic, un traitement soit antiparasitaire, soit antibiotique, soit de soutien lors d’une maladie rénale pourront être prescrit.\n\nDans les cas les moins graves, un rééquilibrage alimentaire sera conseillé avec des compléments alimentaires appropriés.\n\nLe cas d’urgence souvent d’origine hémorragique, sera traité par une transfusion sanguine qui reste une intervention non négligeable et à prendre avec beaucoup de précaution.",
-        "vaccinable": 0,
-        "zoonosis": 0
-    },
-    {
-        "id": 2,
-        "noun": "Arthrose du chien",
-        "description": "L’arthrose est une pathologie très courante chez le chien adulte.\n\nLa dégradation progressive du cartilage des articulations en laissant place à un tissu osseux anormal est responsable de cette affection (le cartilage abîmé ne joue plus son rôle d’amortisseur et laisse la place à des chocs douloureux).\n\nSi l’arthrose est généralement liée à l’âge, on observe que des traumatismes successifs, l’obésité, la malformation congénitale et la dysplasie de naissance peuvent aussi affecter les jeunes chiens.\n\nCertaines races, en particulier les grands chiens, sont plus sujettes à l’arthrose en raison de leur morphologie et de leur poids.\n\nOn distingue 2 sortes d’arthroses :\n\nL’arthrose primaire concerne le chien âgé. Il s’agit une usure normale du cartilage dû au vieillissement sur plusieurs articulations en même temps.\nL’arthrose secondaire se développe sur une articulation traumatisée ou de malformation congénitale qui fonctionne anormalement.\nL’arthrose est une affection très douloureuse pour le chien car les articulations perdent leur souplesse et les mouvements sont de plus en plus difficiles.\n\nLa hanche, le genou, le coude, la colonne vertébrale sont les plus touchés par cette usure.",
-        "symptoms": "Refus de courir\nRefus de sauter\nBoitements\nDémarche raide après le repos ou le lever\nPosture inhabituelle pour uriner\nDouleurs vives au froid et à l’humidité\nDouleurs à l’examen de l’articulation\nImpossibilité de se lever\nDouleurs aux mouvements",
-        "preventive": "Dès que l’âge commence à avancer, administrer en supplément de la nourriture des compléments alimentaires permettant de renforcer le cartilage.\n\nRechercher assez tôt d’éventuelles anomalies articulaires.\n\nEn cas d’articulation mal formée à la naissance ou à cause de traumatisme, envisager une correction chirurgicale afin de limiter l’usure du cartilage dans le temps.\n\nEn cas de surpoids, entreprendre rapidement un régime alimentaire pour réduire le poids du chien et soulager les articulations.\n\nFaire de courtes promenades en laisse pour empêcher le chien de se faire mal mais aussi pour continuer à faire fonctionner les articulations qui ne seront que plus douloureuses si elles n’ont plus d’activités.",
-        "curative": "Le vétérinaire établira un diagnostic par un examen complet et à l’aide de radiographies.\n\nS’il est démontré que le cartilage abîmé ne peut être réparé, un traitement à base d’anti-inflammatoire afin de soulager l’inflammation et les douleurs sera prescrit. Des compléments alimentaires seront conseillés afin de ralentir le vieillissement et l’usure des cartilages.\n\nLa même hygiène de vie conseillée à titre préventif sera à suivre.",
-        "vaccinable": 0,
-        "zoonosis": 0
-    },
-    {
-        "id": 3,
-        "noun": "Arthrite du chien",
-        "description": "L’arthrite du chien est une pathologie causée par l’usure du cartilage des articulations.\n\nCette usure provoque des inflammations articulaires extrêmement douloureuses pour le chien âgé principalement.\n\nContrairement à l’arthrose, les douleurs causées par l’arthrite sont souvent insupportables même lorsque le chien ne bouge pas.\n\nOn distingue 2 formes d’arthrite :\n\nL’arthrite septique (rare) qui se caractérise par une infection générale de l’organisme.\nL’arthrite non septique (non infectieuse et la plus courante chez le chien) qui a 2 origines : L’arthrite métabolique est provoquée soit par un épanchement de sang, soit par un dépôt de cristaux d’acide urique dans l’articulation ou l’arthrite immunologique qui résulte d’une réaction immunitaire comme la polyarthrite.\nLes principales causes de l’arthrite sont le vieillissement, l’obésité, les troubles de la croissance ou l’accident.",
-        "symptoms": "Difficulté à se lever\nPlaintes douloureuses en bougeant et sans bouger\nPerte d’énergie\nDifficulté à se déplacer\nRougeur et chaleur au niveau des articulations\nGonflements articulaires",
-        "preventive": "Afin de minimiser les crises et atténuer les douleurs, il faut tout de même continuer à promener votre chien au moins 2 fois par jour afin de faire travailler les articulations.\n\nSi votre chien est en surpoids, commencer un régime alimentaire adapté afin de soulager ses articulations.\n\nNe pas l’autoriser à se coucher à même le sol.\n\nEviter l’humidité et garder le chien au chaud.\n\nLui administrer des compléments alimentaires dès l’apparition des premiers symptômes et même en prévention.",
-        "curative": "Une consultation chez le vétérinaire est nécessaire car il ne faut pas confondre arthrose et arthrite.\n\nL’arthrite est très douloureuse et handicapante pour le chien.\n\nLe traitement sera uniquement médicamenteux à base d’anti-inflammatoires et de compléments alimentaires.\n\nToutefois, il faut savoir que le cartilage usé ne peut pas se remplacer.\n\nAvec un traitement bien adapté, vous pourrez freiner cette détérioration.\n\nL’arthrite est une maladie qui ne guérit pas mais qui peut être facilement enrayée et soulagée avec le bon diagnostic et le bon traitement.",
-        "vaccinable": 0,
-        "zoonosis": 0
-    },
-    {
-        "id": 4,
-        "noun": "Crise d’épilepsie",
-        "description": "L’épilepsie se caractérise par des crises convulsives impressionnantes récidivantes provoquées par des troubles fonctionnels du cerveau.\n\nIl existe 3 formes d’épilepsie chez le chien :\n\nL’épilepsie dite essentielle ou primaire (la plus fréquente) est dûe à un fonctionnement anormal du cerveau\nL’épilepsie secondaire ou symptomatique est dûe à une anomalie de la structure du cerveau\nL’épilepsie extra crânienne ou réactionnelle est provoquée par une anomalie sanguine\nElles peuvent aussi être d’origine héréditaire ou génétique.",
-        "symptoms": "Pour la forme la plus fréquente soit l’épilepsie primaire :\n\nHyper-salivation\nTremblements\nClaquement de mâchoire\nSpasmes musculaires\nPerte de connaissance\nRelâchement urinaire et intestinal\nAbsence brève de conscience",
-        "preventive": "Il est très difficile de prévoir les crises d’épilepsie qui donnent très peu de signes précurseurs.\n\nOn pourra reconnaître la venue d’une crise après plusieurs épisodes convulsifs.\n\nIl est possible de se faire prescrire des ampoules d’anti convulsif que l’on pourra injecter dans l’anus du chien à la fin d’une 1 ère crise afin d’éviter le cumul d’une 2 -ème convulsion.\n\nAprès le diagnostic du vétérinaire, un traitement sera administré à vie afin de diminuer la fréquence et l’intensité des crises.",
-        "curative": "Si une convulsion dure plus de 5 minutes, il faut emmener votre chien d’urgence chez le vétérinaire.\n\nSinon, même si la crise est impressionnante, ne pas toucher ni réveiller votre chien.\n\nAprès le diagnostic final du vétérinaire, votre chien aura un traitement à vie à base de molécules aux propriétés sédatives, tel que la gabapentine, lévétiracétam….etc.\n\nDe nombreux effets secondaires peuvent être ressenties mais le traitement devra être suivi très régulièrement.",
-        "vaccinable": 0,
-        "zoonosis": 0
-    },
-    {
-        "id": 5,
-        "noun": "Dépression du chien",
-        "description": "La dépression du chien est bien réelle. Les signes sont pratiquement identiques à la dépression de l’homme à la différence qu’en général ils ne durent jamais trop longtemps.\n\nLe stress et l’anxiété sont les facteurs principaux de la dépression chez le chien.\n\nLe chien a un agenda très bien organisé et réglé.\n\nLe moindre changement dans sa routine peut le stresser et l’angoisser.\n\nUne reprise du travail de son propriétaire, l’arrivée d’un bébé dans le foyer, un déménagement, d’un nouveau compagnon à 4 pattes, un changement d’ameublement, une mauvaise relation avec un membre de la famille, une mise à l’écart brutale …etc.\n\nUn sevrage prématuré ou une nourriture mal adaptée peut être aussi une source de dépression.",
-        "symptoms": "Perte d’appétit\nPerte de poids\nSomnolence\nSommeil perturbé\nManque d’énergie\nManque de réactivité\nPerte d’envie de sortie\nRefus de jouer\nDestruction d’objets\nRecherche d’isolement\nAnxiété de séparation\nBesoins faits brutalement à l’intérieur",
-        "preventive": "Surveillance de l’anxiété du chien.\n\nEn cas de comportement anormal du chien (timidité à l’excès, craintif, destructeur, agressif ou hargneux), consulter un vétérinaire comportementaliste qui pourra diagnostiquer son niveau d’anxiété.\n\nÊtre très attentif à un changement d’humeur. Par ce comportement, le chien peut vouloir attirer votre attention sur son mal être.\n\nEn cas de doute, lui donner des remèdes naturels ou des compléments alimentaires.\n\nConsulter votre vétérinaire si les symptômes vous inquiètent.\n\nChez le chien vieillissant, la dépression est une véritable maladie et non de la déprime.\n\nIl s’agit de la dépression d’involution qui doit être soigner par des anti-dépresseurs ou des psychotropes.\n\nSeul le vétérinaire pourra en faire le diagnostic.",
-        "curative": "Le meilleur traitement sera l’attention, l’amour que vous porterez à votre chien.\n\nFaire de grandes ballades avec lui, le sociabiliser un maximum avec les autres chiens, lui offrir des jouets ou des gourmandises.\n\nSi avec tout cet amour, sa déprime ne passe pas, il est conseillé de consulter un vétérinaire.\n\nIl pourra vous proposer des colliers et coussins qui diffusent des phéromones maternelles qui apaiseront votre chien et évaluer plus précisément le niveau de déprime de celui-ci.\n\nIl prescrira aussi un traitement anti dépresseur, si cela s’avère être vraiment indispensable.",
-        "vaccinable": 0,
-        "zoonosis": 0
-    },
-    {
-        "id": 6,
-        "noun": "Diabète du chien",
-        "description": "Le diabète chez le chien est une maladie grave qui provoque un déséquilibre de la glycémie et donc un excès de sucre dans le sang.\n\nUne lésion du pancréas qui assure avec le foie une bonne régulation du glucose est à l’origine de cette maladie.\n\nL’hormone responsable de cette affection est l’insuline qui doit toujours être à un niveau équilibré.\n\nUn taux d’insuline trop bas peut provoquer un coma diabétique qui peut entrainer le décès du chien.\n\nIl existe 3 formes de diabète :\n\nLe diabète juvénile qui touche les jeunes chiens à cause d’un manque de sécrétion d’insuline.\nLe diabète gras que l’on retrouve principalement chez le chien adulte ou âgé (apparition entre 6 ans et 10 ans), causé par un manque d’action de l’insuline et qui provoque à contrario un taux d’insuline trop élevé.\nLe diabète maigre que l’on doit à une maladie du pancréas ou à l’évolution du diabète gras, le corps du chien ne produisant plus d’insuline.\nLe diabète est une maladie très grave et complexe mais traitée et suivie, le chien pourra vire sereinement.\n\nCertaines races de chien sont plus prédisposées au diabète.",
-        "symptoms": "Baisse de forme\nAmaigrissement anormal\nSoif intense\nAbattement\nPerte d’équilibre\nVomissements\nCataracte de la vision (yeux presque blancs)\nInsuffisance rénale\nInfections urinaires récurrentes",
-        "preventive": "Ne jamais donner de sucre à votre chien\n\nSurveillance de l’obésité\n\nAlimentation bien équilibrée pauvre en glucide\n\nStérilisation des femelles\n\nSurveillance accrue si prise de médicaments tel que cortisone ou traitement hormonal",
-        "curative": "Lors de la consultation chez le vétérinaire, celui-ci listera les symptômes et effectuera un examen complet. Il prélèvera un échantillon d’urine pour mesurer le taux de présence de sucre dans les urines et un échantillon de sang pour détecter la concentration de glucose dans le sang.\n\nAprès confirmation du diagnostic, il prescrira un traitement en fonction de la gravité du diabète.\n\nDans tous les cas, un traitement à base d’injections journalières d’insuline sera mis en place, A VIE.\n\nUn régime alimentaire approprié et très strict sera obligatoire.\n\nUn suivi régulier par votre vétérinaire afin de vérifier le taux d’insuline de votre chien devra être respecté pour lui assurer la meilleure qualité de vie.",
-        "vaccinable": 0,
-        "zoonosis": 0
-    },
-    {
-        "id": 7,
-        "noun": "Dysplasie de la hanche",
-        "description": "La dysplasie provoquée par une malformation progressive de la hanche constitue chez le chien une des causes principales de l’arthrose.\n\nCette anomalie du développement de l’articulation coxo-fémorale, touche principalement les grandes races de chien.\n\nElle est très souvent héréditaire d’où une surveillance particulière chez les éleveurs sérieux quant à la lignée des futures portées.\n\nCette malformation apparaît chez le chien entre 6 mois et 12 mois ainsi que chez le chien âgé.\n\nIl s’agit d’une affection plus ou moins douloureuse et invalidante, mais un chien dysplasique peut vivre très heureux si l’on applique certaines précautions et règles de vie.",
-        "symptoms": "Boitement au niveau de l’arrière-train\nDifficulté à se déplacer\nRaideur au lever\nDifficulté à monter et descendre les escaliers\nDémarche ondulante\nDéplacement des 2 membres postérieur en même temps durant la course\nFesses peu musclées et os des hanches très saillants\nDouleurs au déplacement",
-        "preventive": "Il n’existe pas de signes précurseurs de la dysplasie.\n\nDans le doute, faire pratiquer une radio de contrôle dès le plus jeune âge\n\nSurveillance accrue si croissance trop rapide\n\nEviter une alimentation non appropriée et trop riche en énergie\n\nNe pas faire sauter le chiot durant les premiers mois\n\nEviter les efforts violents, les glissages, les montées et descentes d’escalier durant la croissance.",
-        "curative": "Dès votre consultation chez un vétérinaire spécialisé, celui-ci effectuera un bilan orthopédique ainsi qu’un examen radiographique des articulations coxo-fémorales sous anesthésie afin de confirmer le diagnostic.\n\nSi celui-ci s’avérait positif, une opération chirurgicale pourrait être envisagée pour corriger cette anomalie.\n\nSinon, une surveillance active de la croissance, de l’alimentation et des activités seront nécessaires.\n\nLe surpoids et les efforts trop violents pouvant être néfastes et douloureux pour votre chien.\n\nUne aide médicamenteuse pourra être prescrite pour soulager les douleurs.",
-        "vaccinable": 0,
-        "zoonosis": 0
-    },
-    {
-        "id": 8,
-        "noun": "Eczéma du chien",
-        "description": "L’Eczéma est une inflammation de la peau. Il n’est pas une maladie mais un SYMPTOME.\n\nIl existe trois formes d’eczéma :\n\nL’eczéma allergique ou alimentaire\nAllergique par infestation de parasites tels que puces, tiques, gale sarcoptique (acariens) ou dermatomycoses.\nAlimentaire : Changement de nourriture, alimentation trop grasse ou carencée en vitamines. Mauvaise qualité de croquettes ou d’alimentation.\nL’eczéma chronique\nComme son nom l’indique, l’eczéma est installé depuis longtemps sur l’animal.\n\nCe symptôme est retrouvé principalement chez le chien âgé suralimenté qui ne pratique plus d’exercice physique.\n\nL’eczéma atopique\nCe type de pathologie est en général génétique. Certaines races de chiens (boxers, bouledogues, sharpeis …) sont prédisposées à l’eczéma atopique.\n\nChose importante à savoir : L’eczéma du chien n’est en règle générale pas transmissible à l’homme.",
-        "symptoms": "Prurit important dans les zones du cou, dorsolombaire, base de la queue ou abdomen.\nLésions cutanées, rougeurs et démangeaisons intenses.\nSi l’eczéma est provoqué par la gale sarcoptique, les symptômes seront une chute de poils importante qui s’étend sur les zones de la tête, l’intérieur des cuisses et du ventre.",
-        "preventive": "Quel que soit la nature de l’eczéma, une très grande hygiène est nécessaire afin d’accélérer la guérison et d’éviter une récidive. (Nettoyage fréquents des lieux de couchages, niches …etc.).\n\nSi l’eczéma est d’origine parasitaire, bien traiter votre animal contre les parasites externes (puces et tiques) à l’aide de pipette ou collier. Lors des périodes chaudes et estivales, laver votre chien avec un shampoing adapté après les baignades en mer, lac ou rivière.\n\nAdapter son alimentation à chaque cycle de vie et éviter de lui donner une nourriture trop grasse.\n\nL’exercice physique joue aussi une grande importance afin d’éviter l’obésité et des problèmes de peau à la suite de son inactivité.",
-        "curative": "L’eczéma est un symptôme de maladie qui se soigne très bien s’il est d’origine allergène (parasitaire ou alimentaire).\n\nAprès consultation chez votre vétérinaire, celui-ci pourra procéder à un grattage de peau afin de déterminer à l’aide d’analyses la cause de cet Eczéma.\n\nNe faites jamais d’automédication.\n\nLes traitements sont différents en fonction de la cause.\n\nIl pourra rapidement soulager votre animal à l’aide de pommade ou comprimé souvent à base de cortisone.\n\nDe plus en plus de produits naturels sont aussi utilisés.",
-        "vaccinable": 0,
-        "zoonosis": 0
-    },
-    {
-        "id": 9,
-        "noun": "Gale du chien",
-        "description": "Les gales sont des affections cutanées dûes à des acariens.\n\nIl existe 3 sortes de gale :\n\nLa gale des oreilles inoculée par l’acarien « Otodecte cynotis »\nLa gale sarcoptique provoquée par l’acarien « Sarcoptes scabiei »\nLa gale démodécique ou démodécie dûe par l’acarien « Dermodex canis ». Elle ne touche en règle générale que les chiots de moins d’un an mais sans gravité\nLes 3 sortes de gale sont des dermites extrêmement contagieuses et très invalidantes pour l’animal même si elles ne sont pas d’une forte gravité.\n\nEn revanche le traitement et la guérison vont être très contraignant et long.\n\nNous sommes face à une zoonose.\n\nIl en résulte que le chien peut contaminer l’homme en contact direct, d’où une grande prudence.",
-        "symptoms": "La gale des oreilles :\n\nLe chien secoue la tête dans tous les sens et se gratte énergiquement l’oreille\nForte augmentation de cérumen et odeur nauséabonde à l’intérieur de l’oreille\nSe localise dans l’oreille\nLa gale sarcoptique :\n\nFortes démangeaisons à rendre le chien incontrôlable\nPlaques rouges avec boutons et plaques\nSe localise au niveau du contour des yeux, aux coudes et au ventre\nLa gale démodécique :\n\nLésion sous forme de boutons et dépilation\nFortes démangeaisons\nSe localise au niveau de la tête et des membres antérieurs.",
-        "preventive": "L’utilisation d’anti parasitaires pourra être exploitée.\n\nToutefois la gale est une maladie assez rare chez le chien.\n\nUne très bonne hygiène du chien et de l’habitat devrait éviter cette dermatite sauf par contamination extérieure imprévisible.",
-        "curative": "Le vétérinaire ayant approfondi son diagnostic par un examen clinique et éventuellement une sérologie sanguine, la gale des oreilles sera soignée grâce à un traitement auriculaire à base de gouttes ou de pommade dans les 2 oreilles (durée du traitement 15 jours).\n\nLe traitement de la gale sarcoptique s’effectuera à l’aide de pipettes spécifiques, lotion et bains acaricides en y rajoutant un éventuel traitement médicamenteux afin de soulager les démangeaisons du chien (traitement entre 15 et 30 jours).\n\nLa gale démodécique est la moins grave des gales et se guérit à 80 % toute seule.\n\nEn revanche s’il s’agit d’une gale démodécique généralisée (au moins 5 lésions) le vétérinaire administrera un traitement acaricide + un traitement anti bactérien.\n\nDans tous les cas, l’isolement et une tonte générale pourront être envisagés.",
-        "vaccinable": 0,
-        "zoonosis": 1
-    },
-    {
-        "id": 10,
-        "noun": "Gastro entérite",
-        "description": "Le terme de gastro entérite désigne une inflammation ou irritation du tube digestif.\n\nLa gastro entérite est généralement provoquée par l’ingestion d’un aliment avarié ou contaminé.\n\nPlus rarement, la cause peut être l’absorption de produits toxiques, de corps étrangers, de plantes vertes, de virus ou de parasites intestinaux. Les bactéries peuvent aussi être responsables de la gastro entérite.\n\nOn parlera de gastrite, si les symptômes se limitent à des vomissements et d’entérite, s’ils se limitent aux diarrhées.\n\nIl existe aussi la gastro entérite hémorragique, qui se diagnostique par la présence de sang dans les selles et les vomissements.",
-        "symptoms": "Nausées\nVomissements simples\nVomissements avec présence de sang\nDiarrhées simples\nDiarrhées aigües sanguinolentes\nSalivation importante\nPerte d’appétit\nLéthargie\nFièvre\nFaiblesse\nRefus de boire\nDéshydratation",
-        "preventive": "Apprendre dès son plus jeune âge à votre chien de ne manger que ce que vous lui donnez dans sa gamelle afin qu’il évite de manger n’importe quoi n’importe où sans surveillance.\n\nEviter de lui changer son alimentation. L’estomac du chien ne supporte pas le changement de nourriture.\n\nChanger régulièrement sa gamelle d’eau et éviter de le laisser boire dans des eaux stagnantes.\n\nUne vaccination régulière permettra de le protéger contre les maladies qui affectent le tube digestif comme la Parvovirose.\n\nAdministration régulière d’un vermifuge et utilisation d’un traitement anti-puces afin d’éviter l’infestation par certains vers intestinaux.",
-        "curative": "Face à une gastro entérite simple (vomissements et diarrhées simples), le vétérinaire préconisera une courte période de jeûne et accompagnera la prescription d’un médicament antiémétique permettant d’arrêter les vomissements ainsi que d’un anti gastrique afin d’espacer les diarrhées.\n\nSi le praticien suspecte une gastro entérite aigue, des examens complémentaires (radios, échographie abdominale, examen sanguin ou de selles) seront effectués.\n\nLe traitement sera également la prise d’antiémétique afin de soulager le chien et dans certains cas d’anti gastrique ou antibiotique.\n\nDans le cas d’une gastro entérite hémorragique, une hospitalisation sera nécessaire avec un traitement administré sous perfusion.",
-        "vaccinable": 0,
-        "zoonosis": 0
-    },
-    {
-        "id": 11,
-        "noun": "Hépatite contagieuse ou hépatite de Rubarth",
-        "description": "L’Hépatite contagieuse, également appelée L’Hépatite de Rubarth est une maladie contagieuse très grave qui peut s’avérer mortelle sans intervention du vétérinaire en urgence.\n\nElle est transmise par un adénovirus (CAV1) qui s’attaque aux poumons, reins, foie ainsi que les yeux du chien.\n\nComme beaucoup de maladies canines elle se transmet par le contact avec un autre chien ainsi qu’au contact de salives, matières fécales ou d’urines infectées.\n\nElle peut aussi se transmettre par des puces ou poux.\n\nImportant : afin d’éviter tout cela à votre petit compagnon, une seule précaution : Le vaccin sans oublier les rappels annuels.",
-        "symptoms": "Coloration bleutée de la cornée liée à une kératite (pour la forme la moins grave)\nPerte d’appétit\nForte léthargie\nFièvre\nAmygdalites (muqueuses très rouge et augmentation des ganglions lymphatiques sous la mâchoire)\nApparition de saignement sur les gencives et coloration de celle-ci en jaune suivant l’évolution de la maladie\nDiarrhées\nVomissements\nFoie douloureux\nLe diagnostic est très difficile au début de la maladie car une période d’incubation d’environ 4 à 8 jours est nécessaire avant l’apparition des premiers symptômes.\n\nSoyez très vigilant et n’hésitez pas à consulter si de tels signes apparaissent.",
-        "preventive": "La meilleure prévention est la vaccination.\n\nLe vaccin de l’Hépatite contagieuse est pratiquement toujours administré lors de la première série de vaccins du chiot entre 6 et 8 semaines ainsi qu’à chaque rappel annuel.\n\nLa 1ere injection intervient à l’âge de 2 mois suivie d’une 2 ème injection 4 semaines après.\n\nLa vaccination est le seul moyen de prévenir cette maladie dont le virus est extrêmement contagieux et qui résiste à l’environnement extérieur.",
-        "curative": "Aucun traitement existant contre l’hépatite contagieuse et diagnostic effectué, votre vétérinaire administrera et vous prescrira en fonction de la forme et gravité de la pathologie :\n\nAntibiotiques afin de combattre les infections bactériennes\nAnti inflammatoires pour soulager les douleurs et l’inflammation provoquée par l’adénovirus\nMédication et anti spasmodiques pour soulager les diarrhées, vomissement …etc\nAdaptation d’une alimentation adaptée à l’insuffisance hépatique.\nIl vous conseillera également :\n\nUn très grand repos sans exercice car votre animal va être totalement épuisé\nAucun contact avec les autres animaux car même guéri votre chien restera contagieux encore environ 6 mois,\nUne désinfection totale de l’environnement de votre animal de compagnie doit être effectuée afin d’éviter tout risque de contagion.",
-        "vaccinable": 1,
-        "zoonosis": 0
-    },
-    {
-        "id": 12,
-        "noun": "Hyperthyroïdie du chien",
-        "description": "L’hyperthyroïdie chez le chien est provoquée par la présence évolutive d’une tumeur de la glande thyroïde.\n\nContrairement à l’hypothyroïdie, cette pathologie est due à un excès d’hormones thyroïdiennes.\n\nL’hyperthyroïdie est beaucoup plus rare que l’hypothyroïdie chez le chien.",
-        "symptoms": "Comportement anormal, (stress, nervosité)\nExcitation, agitation\nAmaigrissement anormal\nDiarrhées\nVomissements\nSoif intense et anormale\nAppétit démesuré\nTachycardie",
-        "preventive": "Il n’y aucun traitement préventif.",
-        "curative": "Après avoir listé les symptômes qui vous ont alerté, le vétérinaire effectuera un prélèvement sanguin afin de confirmer le taux de l’hormone thyroïdienne.\n\nUn traitement à base d’antithyroïdiens de synthèse sera prescrit afin de faire diminuer le taux d’hormone.\n\nLes premiers effets bénéfiques peuvent se ressentir après 3 à 4 semaines de traitement.\n\nLa chirurgie sera utilisée en cas de tumeur sur la glande thyroïde.\n\nSi la glande devait être retirée en totalité, un traitement à base d’hormones thyroïdiennes sera impératif afin de de remplacer l’organe manquant.\n\nUn suivi régulier par le vétérinaire ainsi que des examens sanguins seront obligatoires pour assurer une bonne qualité de vie à votre chien.",
-        "vaccinable": 0,
-        "zoonosis": 0
-    },
-    {
-        "id": 13,
-        "noun": "Hypothyroïdie du chien",
-        "description": "L’hypothyroïdie est une maladie d’origine endocrinienne qui résulte d’une anomalie des hormones thyroïdiennes.\n\nCes hormones jouent un rôle primordial dans le métabolisme du chien.\n\nIl existe plusieurs sortes d’hypothyroïdie.\n\nL’hypothyroïdie primaire, la plus fréquente est provoquée par une destruction de la glande thyroïde par les propres anticorps du chien.\nL’hypothyroïdie secondaire et tertiaire ne proviennent pas d’un dysfonctionnement de la thyroïde. Une malformation congénitale, une tumeur ou un manque de sécrétion de TSH par l’hypophyse peuvent être responsables. Cette forme d’hypothyroïdie est beaucoup plus rare chez le chien.\nToutes les races peuvent être atteintes.\n\nCette maladie est principalement diagnostiquée entre la 2ème et 6ème année du chien.",
-        "symptoms": "Perte de poils au niveau du ventre, flancs et cou\nLa peau prend une couleur noirâtre\nSymptômes cutanés\nAugmentation de poids\nFatigue anormale\nTroubles digestifs\nManque de libido chez les mâles\nCycles de chaleur espacés chez la femelle\nManque de dynamisme\nTrouble du comportement (hyperactivité, agressivité, anxiété).\nPerte d’appétit\nApathie\nRalentissement rythme cardiaque\nBoiteries ou crampes\nPelage clairsemé",
-        "preventive": "Il n’y aucun traitement préventif",
-        "curative": "Après avoir listé les symptômes qui vous auront inquiété, le vétérinaire effectuera un prélèvement sanguin afin de confirmer le taux de T4, TSH et de cholestérol.\n\nLe diagnostic est très difficile à poser car les résultats ne sont pas toujours probants.\n\nIl peut aussi s’aider d’examens d’imageries.\n\nAprès confirmation de la pathologie, le traitement consistera à administrer des hormones thyroïdiennes de synthèse ou de remplacement.\n\nCe traitement devra être pris à vie et nécessitera un suivi vétérinaire et des examens sanguins réguliers.\n\nDiagnostiqué rapidement et traité de manière journalière, le pronostic sera excellent et la qualité de vie du chien équivalente à celle d’un chien en bonne santé.",
-        "vaccinable": 0,
-        "zoonosis": 0
-    },
-    {
-        "id": 14,
-        "noun": "Leishmaniose",
-        "description": "Nous allons parler d’une maladie très grave et souvent mortelle.\n\nLa Leishmaniose (Leshmania Infantum) est une maladie parasitaire qui est transmise par un volatile très proche du moustique appelé phébotome. Ce parasite est détecté dans les régions du pourtour Méditerranéen et sévit principalement d’Avril à Octobre.\n\nDepuis quelques années, cette pathologie se répand de plus en plus et il est très important de se renseigner lors de déplacement avec votre chien si vous prévoyez de séjourner dans une région à risque.\n\nDans ce cas, il vous faudra prendre de très grandes précautions pour éviter à votre compagnon, une maladie très grave et très couteuse sans aucune garantie de guérison.\n\nLa leishmaniose peut aussi affecter l’être humain mais ne se transmet pas directement par le chien.",
-        "symptoms": "Abattement\nPerte de poids\nGanglions\nLésions dermatologiques\nSaignement de nez\nTroubles oculaires\nTroubles locomoteurs et nerveux\nPerte d’appétit\nInsuffisance rénale\nDiarrhée chronique avec du sang",
-        "preventive": "Vérification des zones à risque\n\nSi vous résidez ou vous rendez dans une zone sans risque, aucune précaution particulière est à prendre.\n\nSi vous résidez ou vous rendez dans une zone à risque :\n\nUtiliser des insecticides adaptés en permanence\nNe pas laisser le chien dehors à la tombée de la nuit\nNe pas laisser ou éviter les eaux stagnantes à proximité, source d’attirance des parasites\nLa vaccination qui se réalise en 3 injections à 3 semaines d’intervalle et pas avant l’âge de 6 mois\nQuelques petits effets secondaires peuvent se faire sentir suite au vaccin (fatigue, trouble digestif) mais disparaissent rapidement. Par contre, prévoir un délai de 3 mois avant le départ pour envisager le début des phases de vaccination.",
-        "curative": "Le diagnostic de la leishmaniose est très difficile et très couteux. Le vétérinaire effectuera une série d’examens sanguins, prélèvement cutané, éventuellement une ponction lombaire ou osseuse.\n\nIl existe un dépistage sous forme de test mais qui ne peut s’effectuer que sur un chien en bonne santé donc inutile en cas de déclaration des premiers symptômes.\n\nL’avantage de ce test est lorsqu’un nouveau compagnon entre dans votre foyer, vous pouvez demander ce test (test sanguin très rapide) afin de déterminer si votre futur meilleur ami est déjà porteur de la maladie car il peut très bien être atteint sans avoir déclarer la maladie.\n\nCertains traitements à base de diverses molécules et d’association d’antibiotiques seront prescrits, soit en injection soit en médication orale, mais l’animal ne sera jamais guéri. De très fréquentes rechutes ont été observées avec une issue très souvent fatale.",
-        "vaccinable": 1,
-        "zoonosis": 0
-    },
-    {
-        "id": 15,
-        "noun": "Leptospirose",
-        "description": "La leptospirose est une maladie très grave voire mortelle pour votre chien.\n\nLa bactérie LEPTOSPIRA est à l’origine de cette infection.\n\nElle s’attrape généralement au contact ou à l’ingestion d’eau stagnante (flaques, étangs, mares) ou dans le sol contaminé par l’urine de rats, cochons et divers bétails.\n\nLes chiens de chasse ou vivant dans un environnement rural sont le plus exposés.\n\nTRÈS IMPORTANT : Cette maladie est transmissible à l’homme. Des conditions d’hygiène drastiques seront obligatoires afin d’éviter toute contagion animale et humaine.",
-        "symptoms": "Gastro-entérite hémorragique\nVomissements avec du sang\nSelles noires dûes à la présence de sang\nFièvre importante (40°)\nAnorexie\nAbattement\nDéshydratation importante\nInsuffisance rénale. Le chien boit énormément mais ne peut uriner\nUn diagnostic pourra être établi par votre vétérinaire à l’aide d’examens sanguins spécifiques ainsi que des recherches sérologiques. Un complément d’analyses urinaires et bactériologiques se révèleront aussi certainement nécessaires.",
-        "preventive": "La meilleure prévention est la vaccination.\n\nLe vaccin contre la leptospirose est toujours administré sur un animal en bonne santé.\n\nLe vétérinaire effectuera un examen complet avant la vaccination.\n\nDeux injections seront nécessaires à quelques semaines d’intervalle.\n\nEn général, le chien tolérera bien ce vaccin. Ce vaccin ne vous garantira pas que votre chien n’attrapera jamais la leptospirose car il existe plusieurs souches de bactérie LEPTOSPIRA mais il en diminuera en très grande proportion le danger.\n\nEviter de faire baigner votre chien dans des étangs ou mares dont l’eau est stagnante. L’empêcher de boire dans des flaques impropres surtout dans les régions très rurales.",
-        "curative": "Seul un traitement antibiotique pourra combattre les leptospires responsables de cette très grave infection.\n\nUn traitement sera administré par voie intra veineuse et sous perfusion pour essayer d’enrayer l’insuffisance rénale provoquée par l’infection.\n\nUne hospitalisation de plusieurs jours sera envisagée.\n\nIl faut vraiment être vigilant face à tous ces symptômes car cette maladie peut très bien se soigner mais uniquement si elle est prise au tout début de l’infection.\n\nSinon, le taux de mortalité ou de séquelles très importantes est à déplorer.",
-        "vaccinable": 1,
-        "zoonosis": 1
-    },
-    {
-        "id": 16,
-        "noun": "Maladie de carré",
-        "description": "La maladie de CARREE appelée très couramment la maladie du jeune âge ou du chiot est une maladie virale très contagieuse dûe à un virus de la famille des paramyxoviradae (Morbillivirus) avec des similitudes du virus de la rougeole humaine.\n\nElle affecte principalement les jeunes chiots entre 4 mois à 1 an.\n\nCe virus se transmet par contact rapproché avec d’autres animaux (nez à nez) salive, écoulement nasal et oculaire. Cette maladie n’est pas transmissible à l’homme.\n\nCette pathologie est très grave car elle s’attaque à de jeunes chiots fragiles et on relève seulement un pourcentage de 50% de guérison. Cependant elle peut très facilement être évitée grâce à la vaccination des premières semaines et quelques précautions de bons sens à prendre.\n\nAUCUNE HESITATION : LA VACCINATION",
-        "symptoms": "Fièvre\nEcoulement oculaire\nEcoulement nasal\nToux\nAtteinte respiratoire\nAbattement\nPerte d’appétit\nVomissements\nDiarrhée\nProblème neurologique",
-        "preventive": "Chiot en période immunitaire :\n\nLe tenir en laisse en promenade\nAucun contact avec des chiens inconnus ou errants\nNe pas le promener dans un endroit ou il peut il y avoir de l’urine ou des déjections de chiens dont vous ne connaissez pas l’état de santé\nLa vaccination est la meilleure barrière de protection contre cette maladie. La 1ere injection s’effectuera à la l’âge de 2 mois suivi d’une 2ème injection 4 semaines après. Un rappel annuel ou bi annuel sera nécessaire",
-        "curative": "L’incubation de 3 à 7 jours rend le diagnostic difficile.\n\nVotre vétérinaire effectuera des examens sanguins, urinaires et de selles. Il pourra compléter par un prélèvement conjonctival ou écouvillon nasal.\n\nUne hospitalisation sera systématique pour l’administration des antibiotiques sous perfusion afin d’éviter les surinfections.\n\nDes anti-vomitifs et anti diarrhées pourront être administrés pour soulager l’animal.\n\nIl n’existe pas de traitement spécifique contre la maladie de CARRE.",
-        "vaccinable": 1,
-        "zoonosis": 0
-    },
-    {
-        "id": 17,
-        "noun": "Maladie de Lyme ou Borréliose",
-        "description": "La maladie de Lyme ou Borréliose est une maladie infectieuse provoquée par la bactérie BORRELIA BURGDORFERI et transmise par une morsure de tique.\n\nIl faudra entre 48 h et 72 H pour que la bactérie se propage. En revanche les symptômes ne sont pas forcément immédiats.\n\nL’incubation peut être longue, entre 2 à 5 mois.\n\nOn retrouve cette maladie dans toute la France surtout dans les zones forestières mais aussi dans tous les endroits végétalisés.\n\nLa période de prolifération et accrue de morsure est au printemps et à l’automne.\n\nLa maladie de Lyme n’est pas transmissible à l’homme par le chien même si celle-ci est commune. En revanche elle est plus facilement détectable chez le chien que chez l’être humain.",
-        "symptoms": "Fièvre récurrente\nDouleurs articulaires\nGonflement des articulations\nAbattement\nManque d’appétit\nAnorexie\nProblèmes respiratoires\nVomissements\nTroubles cardiaques",
-        "preventive": "Utilisation anti-parasitaire spécifique à la tique.\n\nInspection très attentive du chien après chaque promenade afin de retirer à l’aide d’un petit croquet toute présence de tique.\n\nVaccination à partir de l’âge de 3 mois avec 2 injections à intervalle de 3 à 5 semaines et à renouveler chaque année à la même date.",
-        "curative": "À la suite de l’énumération des symptômes, le vétérinaire procédera à un bilan sanguin complet ainsi qu’une sérologie pour confirmer la présence de l’agent infectieux.\n\nUn traitement antibiotique sera administré durant environ 4 semaines ainsi que des anti-inflammatoires afin de calmer les douleurs s’y afférent.\n\nSi le traitement administré rapidement donne de bons résultats, la bactérie ne sera jamais complétement éliminée et votre chien gardera quelques séquelles de cette infection.",
-        "vaccinable": 1,
-        "zoonosis": 0
-    },
-    {
-        "id": 18,
-        "noun": "Otite canine",
-        "description": "L’otite chez le chien provient de plusieurs origines. Soit bactérienne, parasitaire ou allergène.\n\nIl s’agit d’une inflammation très douloureuse du conduit auditif. Les causes sont souvent dûes à une macération dans le conduit de liquide à la suite de baignades en eau de mer, lacs et étangs.\n\nElle peut se déclarer également après utilisation répété de produit de nettoyage des oreilles non adapté et trop agressif ainsi que de coton tige.\n\nUn corps étranger tel que l’épillet (épi qui se plante dans le conduit auditif).\n\nUn parasite responsable de la gale auriculaire. Ce parasite est un acarien (octodecies cynotis) qui s’attrape au contact des autres chiens, couvertures, paniers en tissus. Cette maladie est très contagieuse entre animaux mais ne se transmet pas à l’être humain.\n\nUne allergie (cas le plus fréquent), alimentaire ou environnementale (notamment en été).\n\nUne tumeur dans le conduit auditif (dans ce cas précis, seule une intervention chirurgicale pourra guérir votre compagnon.",
-        "symptoms": "Démangeaisons\nTête penchée ou oreille couchée\nExcès de cérumen\nRougeur et tiédeur de l’oreille\nOdeur forte et nauséabonde\nGrattage persistant de la zone auriculaire",
-        "preventive": "Même sans signe précurseur, vérifier régulièrement les oreilles de votre loulou.\n\nLes nettoyer avec une solution liquide adaptée non agressive conseillée par votre vétérinaire.\n\nNe jamais utiliser de coton tige mais préférer des compresses stériles.\n\nAu premier symptôme cité dessus, se rendre sans attendre chez votre vétérinaire car comme chez l’homme, l’otite canine est très douloureuse. Ne pas faire d’auto médication, car il est important de déterminer l’origine de l’otite, les traitements étant différents en fonction de la nature de l’inflammation.",
-        "curative": "Le vétérinaire déterminera l’origine de l’otite et prescrira un traitement approprié.\n\nS’il s’agit d’un corps étranger, il retirera celui-ci avec une pince spéciale et administrera un traitement anti biotique local ou oral en fonction de l’évolution de l’otite. Un anti Inflammatoire sera aussi prescrit afin d’enrayer l’inflammation et soulager votre compagnon.\n\nDans tous les autres cas, une médication d’environ 8 jours sera envisagée sauf pour l’otite dûe à une allergie à laquelle  il faudra rajouter des examens complémentaires afin de déterminer et d’éliminer  la souche allergène.\n\nEn règle générale, seule la tumeur du conduit auditif nécessitera une chirurgie si l’otite de votre chien est traitée rapidement.",
-        "vaccinable": 0,
-        "zoonosis": 0
-    },
-    {
-        "id": 19,
-        "noun": "Parvovirose canine",
-        "description": "La parvovirose est une maladie virale très grave. Il s’agit d’un parvovirus canin, très contagieux et qui affecte principalement nos petits chiots.\n\nOn l’appelle aussi gastro entérite hémorragique. Elle peut être très rapidement mortelle.\n\nSa contamination se propage par l’ingestion d’excréments de chiens malades.\n\nLe virus s’attaque aux globules blancs ce qui diminue de façon très importante les défenses immunitaires du chiot provoquant d’autres infections bactériennes.\n\nLes premiers symptômes peuvent apparaitre entre 4 à 7 jours.\n\nIl existe 2 formes de parovirose :\n\nLa parovirose intestinale et la parovirose cardiaque.\nLa parovirose cardiaque est très brutale. Le chiot décède d’un seul coup par suite d’un œdème pulmonaire.\nLa parovirose intestinale est plus progressive et plus facilement détectable car des symptômes précurseurs peuvent nous alerter.\n\nLe meilleur conseil : LA VACCINATION DE VOTRE BÉBÉ",
-        "symptoms": "La forme intestinale :\n\nDiarrhée hémorragique\nVomissements\nPerte d’appétit\nFièvre\nAbattement\nDéshydratation\nLa forme cardiaque :\n\nAucun symptôme",
-        "preventive": "Une hygiène rigoureuse.\n\nInterdire à son chien l’ingestion d’excrément qu’adore particulièrement les chiots.\n\nLa vaccination à 8 semaines avec 1 rappel à 4 semaines d’intervalle et 1 rappel annuel.",
-        "curative": "Le vétérinaire effectuera un test de dépistage du virus ainsi qu’un examen des selles. Des examens sanguins seront aussi analysés afin de confirmer la présence du virus.\n\nIl n’existe pas de traitement spécifique à ce jour. Une hospitalisation en soins intensif sera nécessaire afin d’administrer par perfusion une couverture antibiotique ainsi que l’administration d’anti vomitif et de pansement digestif.\n\nIl faut savoir que cette maladie est très grave chez les jeunes chiots et que l’issue est très souvent fatale. Chez le chien plus âgé, l’infection est généralement moins grave et une issue plus heureuse est souvent réalisée.",
-        "vaccinable": 1,
-        "zoonosis": 0
-    },
-    {
-        "id": 20,
-        "noun": "Piroplasmose",
-        "description": "La Piroplasmose, également appelée Babésiose est une maladie qui peut s’avérer très grave pour votre chien.\n\nC’est le parasite « Babesia canis », transmis par une piqûre de tique, qui en est à l’origine.\n\nIl s’agit d’une maladie agressive. Si vous constatez des symptômes, consultez un vétérinaire immédiatement.",
-        "symptoms": "L’animal n’a aucune énergie et semble très faible\nPerte d’appétit\nVomissements possibles\nFièvre de 40°C et plus\nLes urines sont orangées, rougeâtre, marron foncé",
-        "preventive": "La meilleure protection préventive est l’utilisation de produits anti-parasitaires (colliers, comprimés, pipettes anti-puces et anti-tiques).\n\nEn empêchant les tiques de piquer votre animal, vous empêcher le risque de transmission de la piroplasmose.\n\nUn vaccin contre la piroplasmose existe également.\n\nIl s’effectue en deux étapes à 3 semaines d’intervalle. Puis il faudra faire un rappel tous les ans.\n\nJe vous conseille d’effectuer ce vaccin début Mars, lorsque les tiques commencent à faire leur apparition.\n\nAttention, ce vaccin protège contre certaines formes de piroplasmose, mais il ne protège pas contre les tiques. Et ces charmantes petites bébêtes peuvent transmettre d’autres maladies.\n\nJe vous conseille donc d’allier les traitements antiparasitaires préventifs avec ce vaccin pour une protection intégrale.",
-        "curative": "Si votre chien est déjà atteint par la piroplasmose, un vétérinaire utilisera alors un traitement anti-parasitaire par injection (piqûre, sérum intra-veineux, etc.).\n\nCes traitements ont un fort taux de réussite si le chien est traité rapidement.",
-        "vaccinable": 1,
-        "zoonosis": 0
-    },
-    {
-        "id": 21,
-        "noun": "Rage",
-        "description": "Maladie contagieuse et fatale d’origine virale (virus rabique LYSSAVIRUS).\n\nLa rage se transmet par la salive, la morsure et griffures à l’homme et à l’espèce animale.\n\nIl s’agit d’une maladie pratiquement éradiquée grâce à la vaccination quasi systématique bien que quelques cas est été dénombré en Europe depuis quelques années à la suite de l’entrée illicite d’animaux venant de pays à risque.\n\nIl s’agit d’une affection neurotrope très grave du système nerveux. Le virus s’attaque aux muscles et aux neurones",
-        "symptoms": "Après une morsure ou contact avec un animal porteur du virus, la période d’incubation peut varier entre 15 et 60 jours, ce qui rend difficile le diagnostic.\n\nLes symptômes peuvent se décliner en 3 phases :\n\n1ere phase : Fièvre, changement d’humeur et de comportement, pupilles dilatées,\n2eme phase : Agressivité, perte de coordination, convulsion, salivation excessive, épisodes épileptiques, impression hallucination.\n3eme phase : Parésie générale (difficulté à bouger et coordonner les mouvements. Perte de motricité qui débute généralement par la paralysie du train arrière ou des mâchoires.\nLa chronologie de ces phases n’est pas une science exacte. Les symptômes peuvent malheureusement apparaître tous en même temps.",
-        "preventive": "Seul le vaccin anti rabique peut protéger votre animal contre cette maladie mortelle. Une seule injection après les 3 premiers mois de votre chiot suffira avec un rappel annuel.\n\nTrès important : Si vous devez voyager hors d’Europe, le vaccin anti rabique est obligatoire et demandé par chaque compagnie aérienne et autres. En Europe, il peut être demandé aussi par les centres de voyage, camping …etc…\n\nLa vaccination sera notifiée sur le passeport de l’animal. Certain pays demande en plus un certificat de sérologie rabique prouvant que l’animal est bien immunisé par le vaccin. Attention, il y a un délai d’environ 1 mois pour obtenir ce certificat par l’intermédiaire de votre vétérinaire.\n\nL’autre précaution à prendre à la suite d’une morsure de votre chien par un autre animal que vous ne connaissez pas est de bien nettoyer la plaie et d’aller directement chez votre vétérinaire qui lui injectera un sérum anti rabique par précaution même si votre animal est vacciné.\n\nEn effet la période d’incubation étant de 15 jours à 60 jours, l’animal est peut-être porteur du virus sans que cela se voit.\n\nDonc on ne se pose pas la question, on va immédiatement chez le vétérinaire.",
-        "curative": "Il n’y a aucun traitement pour soigner la rage. L’issue est toujours mortelle.",
-        "vaccinable": 1,
-        "zoonosis": 1
-    },
-    {
-        "id": 22,
-        "noun": "Spirocercose",
-        "description": "La Spirocercose est une maladie parasitaire causée par le parasite Spirocerca Lupi, plus communément appelée « la maladie des vers de l’œsophage ».\n\nCe parasite est un petit vers rond qui se niche sous forme de nodule dans la paroi de l’œsophage, l’estomac et l’aorte.\n\nElle est très rare en France mais assez courante dans les Zones tropicales.\n\nElle se transmet en ingérant des excréments d’animaux infectés ou par les larves d’excrément de volatile.\n\nLe diagnostic est très difficile car les symptômes sont graves mais sans particularité précise.\n\nLa complication principale est la transformation en cancer de l’œsophage.",
-        "symptoms": "Amaigrissement\nToux\nAnémie\nAbattement\nSymptômes digestifs\nSymptômes respiratoires\nSymptômes nerveux",
-        "preventive": "Une hygiène rigoureuse concernant l’environnement extérieur du chien (ramassage régulier des excréments).\n\nInterdire l’absorption de déjections animales\n\nVermifuger son chien très régulièrement.",
-        "curative": "Aucun médicament précis n’existe sur le marché pour soigner cette maladie. Seul, un traitement pour bovins pourra être donné principalement par injection en consultation vétérinaire.\n\nSi le cancer de l’œsophage n’est pas encore déclaré, et si le diagnostic a été confirmé à temps, une issue heureuse pourra être envisagée mais votre chien aura de sérieuses séquelles en fonction de l’importance des lésions.\n\nSi le cancer a été diagnostiqué, seule une opération très délicate pourra être conseillée sans aucune garantie de bon résultat.",
-        "vaccinable": 0,
-        "zoonosis": 0
-    },
-    {
-        "id": 23,
-        "noun": "Teigne",
-        "description": "La teigne est une mycose très contagieuse provoquée par des champignons comme le Microsporum canis (le plus courant), le Trichophyton mentagrophytes ou le Microsporum gypseum.\n\nCes champignons prolifèrent dans les sols humides et atteignent principalement les chiens qui aiment creuser les sols avec leur museau ou leur tête.\n\nIl s’agit d’une maladie parasitaire très longue et difficile à traiter.\n\nElle est contagieuse par contact direct et par son environnement.\n\nNous sommes face à une zoonose.\n\nIl en résulte que le chien peut contaminer l’homme en contact direct, d’où une grande vigilance.",
-        "symptoms": "Lésions cutanées rouge mais pas forcément dans tous les cas\nPerte de poils de forme circulaire avec ou sans atteinte prurigineuse\nPrésence de plaies et pellicules principalement au niveau de la tête, les pattes et entre les griffes du chien\nEn règle générale pas de démangeaison sauf si complication par présence de lésions inflammatoires saillantes, rouges et très infectées",
-        "preventive": "Aucun traitement préventif.\n\nLa teigne est une maladie assez rare chez le chien.\n\nLa contamination peut aussi se faire au contact d’un autre chien mais il est difficile de reconnaître un chien contaminé ou pas.",
-        "curative": "Le vétérinaire ayant approfondi son diagnostic par un examen clinique et une inspection des poils à l’aide d’une lampe spéciale appelée Lampe de Wood (lumière violette), vous devrez appliquer un traitement local antimycosique (pommade, lotion) et administrer un traitement médicamenteux antifongique.\n\nLa désinfection TOTALE de l’habitat devra être envisagée ainsi que la protection des autres animaux de la maison.\n\nEn désespoir de cause, si les traitements ne marchaient pas, une tonte totale de l’animal serait effectuée.\n\nIl faudra envisager minimum 4 semaines de traitement avant guérison complète.",
-        "vaccinable": 0,
-        "zoonosis": 1
-    },
-    {
-        "id": 24,
-        "noun": "Tenia du chien",
-        "description": "L’appellation « Tenia » désigne des vers plats de longueur variable que l’on retrouve dans les selles du chien sous la forme de petits anneaux.\n\nIls infestent l’intestin grêle et indisposent votre chien sans grande conséquence en général, mais de façon très désagréable.\n\nIl y a 3 sortes de vers plats :\n\nLe ver « Tænia » sans gravité pour le chien et identique au ver solitaire chez l’homme.\nLe ver « Dipylidium », ver le plus courant et transmissible à l’homme.\nLe ver « « Echinocoques » sans conséquence pour le chien mais à l’origine quelquefois de pathologies graves chez l’homme en cas de transmission par le chien.\nLa contamination se fait par l’ingestion d’œufs dans les selles du chien par la puce, des aliments ou de l’eau souillée.",
-        "symptoms": "Démangeaisons autour de l’anus\nAnneaux de Dipylidium dans les selles\nVentre gonflé\nAppétit féroce\nParfois diarrhées\nVomissements rares\nLe chien se traine le postérieur sur le sol, c’est ce que l’on appelle « Le Signe du traineau »",
-        "preventive": "Administration d’un vermifuge :\n\nTous les 15 jours jusqu’à l’âge de 3 mois pour le chiot\nTous les mois jusqu’ à l’âge de 6 mois\nTous les 3 mois chez le jeune chien\n2 fois par an chez le chien adulte, au printemps et à l’automne de préférence\nBien noter les dates de vermifuge afin de les administrer très régulièrement.\n\nLes produits anti-parasitaires (collier, pipette, comprimé) pourront être aussi utilisés en prévention, les puces étant un facteur important dans la prolifération des vers dans l’intestin grêle du chien.\n\nPensez également à utiliser un fumigène dans votre domicile.",
-        "curative": "Le vétérinaire fera un examen clinique où la détection d’anneaux de Dipylidium sera suffisante.\n\nDans le doute, une analyse des selles serra effectuée.\n\nUn vermifuge sera prescrit de façon plus ou moins dosé en fonction de l’importance des symptômes et des résultats.",
-        "vaccinable": 0,
-        "zoonosis": 0
-    },
-    {
-        "id": 25,
-        "noun": "Tétanos",
-        "description": "Le tétanos est une maladie bactérienne très redoutée qui peut être mortelle si elle n’est pas traitée à temps.\n\nElle est provoquée par une bactérie dénommée Clostridium tétani ou bacille tétanique.\n\nCette pathologie est extrêmement douloureuse pour le chien.\n\nToutefois, si un diagnostic est établi rapidement par le vétérinaire, un bon pronostic de guérison sera envisageable.\n\nEn revanche, si l’animal est atteint d’un tétanos généralisé, seulement 50% de guérison avec une grande possibilité de séquelles à vie seront à prévoir.\n\nCette bactérie se transmet par une morsure, une plaie par perforation, lésions dentaires, blessure avec un objet rouillé …etc.\n\nUne plaie même superficielle produit une toxine appelée tétanospasmine.\n\nAprès l’apparition de la plaie, une incubation de 3 à 18 jours peut être envisagée avant apparition de l’infection.\n\nNous la retrouvons dans le sol, le fumier, matières fécales d’animaux, objets rouillés, principalement dans les régions au climat chaud et humide.\n\nCette bactérie ne peut pas se transmettre d’une personne à l’autre.",
-        "symptoms": "Spasmes musculaires\nIncapacité à se tenir debout (4 pattes)\nContracture des muscles faciaux (aspect rire sardonique)\nTrès forte fièvre (42°)\nProblèmes respiratoires\nIncapacité de boire et de manger\nSalivation excessive\nAsphyxie liée aux difficultés respiratoires",
-        "preventive": "La vaccination n’est pas efficace à 100% mais diminue de façon très conséquente le risque d’infection.\n\nL’utilisation régulière d’un antiparasitaire contre les puces est conseillée à titre préventif.\n\nDésinfection immédiate dès la localisation d’une plaie afin de lutter contre la bactérie avant qu’elle ne se développe.\n\nConsultation en urgence chez votre vétérinaire si les symptômes ci-dessus apparaissent.",
-        "curative": "Votre vétérinaire procédera à des examens sanguins et administrera à votre chien des tranquillisants afin de le soulager des spasmes musculaires.\n\nSi la détection se réalise dans un temps réduit, une sérothérapie sera mise en place avec une efficacité quasi certaine.\n\nUn curetage des plaies sera effectué et une injection de pénicilline sera administrée ainsi que des antibiotiques + un sérum anti -tétanique.\n\nSelon la gravité du cas, une perfusion pour la réhydratation, une sonde gastrique pour l’alimenter et une ventilation pour soulager les difficultés respiratoires seront à envisager.\n\nUne convalescence de quelques jours à plusieurs semaines seront nécessaires pour une guérison complète.",
-        "vaccinable": 1,
-        "zoonosis": 0
-    },
-    {
-        "id": 26,
-        "noun": "Toux du chenil",
-        "description": "La toux du Chenil est une maladie canine particulièrement contagieuse d’origine virale.\n\nAppelée aussi Trachéobronchite infectieuse ou contagieuse, elle provoque une inflammation au niveau supérieur de l’appareil respiratoire.\n\nL’association du virus Parainfluenza canin ou d’un adénovirus avec la bactérie Bordetella Bronchiseptica ou Pseudomona Aeruginosa est responsable de cette inflammation.\n\nIl s’agit d’une maladie très difficile à éviter car elle se transmet par voie aérienne. La contagion s’effectue au contact d’un chien toussant ou éternuant. On l’observe principalement en élevage.\n\nLa toux du chenil pourra assez facilement se guérir chez un chien en bonne santé physique. Cependant, chez le jeune chien non vacciné et mal hébergé, une complication sévère pourra apparaître : la broncho-pneumonie est très difficilement guérissable.\n\nL’incubation du virus dure entre 4 à 7 jours. Toutefois, le diagnostic sera assez facile pour le vétérinaire qui pourra détecter la maladie grâce au symptôme de la toux rapidement reconnaissable.\n\nVous adorez votre loulou : Vaccinez-le.",
-        "symptoms": "Troubles respiratoires\nToux sèche ou grasse\nLarmoiement\nEcoulement nasal\nPerte d’appétit\nRégurgitations\nConjonctivite\nFièvre ou pas\nBroncho-pneumonie",
-        "preventive": "Ne pas mettre en contact votre chien avec un animal qui tousse ou éternue.\n\nIsoler tous les chiens ou autre animal présentant des signes de maladie respiratoire.\n\nDésinfection totale de l’environnement du chien et des locaux (habitat).\n\nQuarantaine.\n\nVaccination.",
-        "curative": "Dès détection de la maladie par le vétérinaire car consultation oblige au moindre symptôme de toux,\n\nIl prescrira une médication à base d’antitussif, anti inflammatoire et antibiotique.\n\nIl pourra aussi effectuer une série d’examens pour confirmer son diagnostic. Tout d’abord par une analyse des sécrétions nasales et trachéales puis par une prise de sang ainsi qu’une sérologie.\n\nLa meilleure protection est encore une fois la vaccination par voie intra-nasale avec un rappel annuel.\nSi l’infection est légère, votre chien sera très bien soigné avec ce traitement médicamenteux.\n\nToutefois, si beaucoup de symptômes cités plus haut se déclarent, il est probable qu’une transformation en broncho-pneumonie se soit déclarée.",
-        "vaccinable": 1,
-        "zoonosis": 0
-    },
-    {
-        "id": 27,
-        "noun": "Tuberculose",
-        "description": "La tuberculose est un maladie bactérienne mortelle chez le chien.\n\nCausée par le bacille Mycobacterium Bovis ou Tuberculosis, elle se transmet par des aérosols, des lésions cutanées mais principalement par les voies respiratoires et au contact de l’homme ou de bovins.\n\nL’environnement et l’hygiène de vie du chien sont en grande partie responsable de cette infection car les quelques cas recensés font apparaître que les propriétaires de ces chiens étaient « sans abri ».\n\nCette infection d’évolution chronique est un danger important pour l’homme et les animaux.\n\nC’est une maladie zoonose c’est-à-dire transmissible entre l’homme et l’animal.\n\nElle s’attaque aux voies respiratoires du chien et ne lui laisse aucune chance.\n\nL’issue est toujours fatale pour le chien au nom de la santé publique.",
-        "symptoms": "Symptômes de bronchite\nTaux rauque, sèche au départ\nGrande faiblesse\nPerte d’appétit\nFièvre\nAmaigrissement\nPerte de poids\nSécrétions purulentes ou sanglantes\nLésions cutanées\nDiarrhées\n",
-        "preventive": "Très peu de traitement préventif sont à conseiller, les cas de tuberculose étant heureusement très rare.\n\nEviter de laisser approcher votre animal d’un chien errant ou d’un chien de personne sans abri.\n\nNe pas mettre en contact votre chien avec des bovins d’origine inconnu.\n\nConsulter en urgence votre vétérinaire si un symptôme respiratoire impressionnant apparait.",
-        "curative": "Il n’y a aucun traitement pour soigner la tuberculose.\n\nLe vétérinaire effectuera tout de même radio, biopsie ganglionnaire, examens sanguins, biologique ou sérologique afin de confirmer l’infection et de prévenir les autorités de santé publique d’une éventuelle épidémie.\n\nUne euthanasie sera pratiquée.",
-        "vaccinable": 0,
-        "zoonosis": 1
+export async function get(req: Request, res: Response) {
+    const connection = await getConnection();
+    try {
+        const disease = await connection.getRepository(Disease).findOne(req.params.diseaseId);
+        res.status(200).send(disease);
+    } catch(error) {
+        res.status(404).send("Disease not found");
     }
-];
+}
+
+export async function create(req: Request, res: Response) {
+    const connection = await getConnection();
+    try {
+        await connection.getRepository(Disease).insert(req.body);
+        res.status(200).send("OK");
+    } catch(error) {
+        res.status(404).send("Error while insert Disease");
+    }
+}
+
+export async function update(req: Request, res: Response) {
+    const connection = await getConnection();
+    try {
+        await connection.getRepository(Disease).update(req.params.diseaseId, req.body);
+        res.status(200).send("OK");
+    } catch(error) {
+        res.status(404).send("Error while update Disease");
+    }
+}
+
+export async function remove(req: Request, res: Response) {
+    const connection = await getConnection();
+    try {
+        await connection.getRepository(Disease).delete(req.params.diseaseId);
+        res.status(200).send("OK");
+    } catch(error) {
+        res.status(404).send("Error while remove Disease");
+    }
+}
