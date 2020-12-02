@@ -35,9 +35,6 @@ export function route(app: Application) {
     app.route("/breed")
         .get(breedController.get);
 
-    app.route("/diseases")
-        .get(diseasesController.get);
-
     app.route("/localities")
         .get(localityController.getAll)
         .post(localityController.create);
