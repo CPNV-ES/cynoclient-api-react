@@ -17,9 +17,15 @@ export function route(app: Application) {
     app.route("/clients/:clientId")
         .get(clientController.get);
 
+    app.route("/diseases")
+        .get(diseasesController.getAll)
+        .post(diseasesController.create);
+
+    app.route("/diseases/:diseaseId")
+        .get(diseasesController.get)
+        .patch(diseasesController.update)
+        .delete(diseasesController.remove);
+
     app.route("/breed")
         .get(breedController.get);
-
-    app.route("/diseases")
-        .get(diseasesController.get);
 }
