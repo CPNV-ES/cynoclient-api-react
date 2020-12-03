@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn} from "typeorm";
+import {Client} from "./Client"
 
 @Entity({name: 'localities'})
 export class Locality {
@@ -34,4 +35,6 @@ export class Locality {
         length: 45
     })  
     language: string
+    @OneToMany(() => Client, client => client.locality)
+    clients: Client[];
 }
