@@ -33,7 +33,13 @@ export function route(app: Application) {
         .delete(diseasesController.remove);
 
     app.route("/breed")
-        .get(breedController.get);
+        .get(breedController.getAll)
+        .post(breedController.create);
+
+    app.route("/breed/:breedId")
+        .get(breedController.get)
+        .patch(breedController.update)
+        .delete(breedController.remove);
 
     app.route("/localities")
         .get(localityController.getAll)
