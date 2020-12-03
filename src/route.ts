@@ -32,11 +32,11 @@ export function route(app: Application) {
         .patch(diseasesController.update)
         .delete(diseasesController.remove);
 
-    app.route("/breed")
+    app.route("/breeds")
         .get(breedController.getAll)
         .post(breedController.create);
 
-    app.route("/breed/:breedId")
+    app.route("/breeds/:breedId")
         .get(breedController.get)
         .patch(breedController.update)
         .delete(breedController.remove);
