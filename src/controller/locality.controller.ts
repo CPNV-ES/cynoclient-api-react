@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { getConnection } from "./db.controller";
-import { Dog } from "../entity/Dog";
+import { Locality } from "../entity/Locality";
 
 export async function getAll(req: Request, res: Response) {
 	const connection = await getConnection();
 	try {
-		const dogs = await connection.getRepository(Dog).find();
-		res.status(200).send(dogs);
+		const localities = await connection.getRepository(Locality).find();
+		res.status(200).send(localities);
 	} catch (error) {
 		res.status(404).send("Error");
 	}
@@ -15,39 +15,39 @@ export async function getAll(req: Request, res: Response) {
 export async function get(req: Request, res: Response) {
 	const connection = await getConnection();
 	try {
-		const dog = await connection.getRepository(Dog).findOne(req.params.dogId);
-		res.status(200).send(dog);
+		const locality = await connection.getRepository(Locality).findOne(req.params.localityId);
+		res.status(200).send(locality);
 	} catch (error) {
-		res.status(404).send("Dog not found");
+		res.status(404).send("Locality not found");
 	}
 }
 
 export async function create(req: Request, res: Response) {
 	const connection = await getConnection();
 	try {
-		await connection.getRepository(Dog).insert(req.body);
+		await connection.getRepository(Locality).insert(req.body);
 		res.status(200).send("OK");
 	} catch (error) {
 		console.log(error)
-		res.status(404).send("Error while inserting Dog");
+		res.status(404).send("Error while inserting Locality");
 	}
 }
 export async function update(req: Request, res: Response) {
 	const connection = await getConnection();
 	try {
-		await connection.getRepository(Dog).update(req.params.dogId, req.body);
+		await connection.getRepository(Locality).update(req.params.localityId, req.body);
 		res.status(200).send("OK");
 	} catch (error) {
-		res.status(404).send("Error while update Dog");
+		res.status(404).send("Error while update Locality");
 	}
 }
 
 export async function remove(req: Request, res: Response) {
 	const connection = await getConnection();
 	try {
-		await connection.getRepository(Dog).delete(req.params.dogId);
+		await connection.getRepository(Locality).delete(req.params.localityId);
 		res.status(200).send("OK");
 	} catch (error) {
-		res.status(404).send("Error while remove Dog");
+		res.status(404).send("Error while remove Locality");
 	}
 }
