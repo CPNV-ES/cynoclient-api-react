@@ -5,7 +5,11 @@ export default (Model) => ({
 	async getAll(req: Request, res: Response) {
 		const connection = await getConnection();
 		try {
-			const data = await connection.getRepository(Model).find();
+			let data;
+			if (req.params.with) {
+				data = await connection.getRepository(Model).find({relations: req.params.with});
+			} else
+				data = await connection.getRepository(Model).find();
 			res.status(200).send(data);
 		} catch (error) {
 			res.status(404).send("Error");
@@ -15,8 +19,12 @@ export default (Model) => ({
 	async get(req: Request, res: Response) {
 		const connection = await getConnection();
 		try {
-			const datum = await connection.getRepository(Model).findOne(req.params.id);
-			res.status(200).send(datum);
+			let data;
+			if (req.params.with) {
+				data = await connection.getRepository(Model).findOne(req.params.id, {relations: req.params.with});
+			} else
+				data = await connection.getRepository(Model).findOne(req.params.id);
+			res.status(200).send(data);
 		} catch (error) {
 			res.status(404).send(Model.name+" not found");
 		}
