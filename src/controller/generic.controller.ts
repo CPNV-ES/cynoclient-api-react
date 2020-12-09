@@ -26,7 +26,7 @@ export default (Model) => ({
 				data = await connection.getRepository(Model).findOne(req.params.id);
 			res.status(200).send(data);
 		} catch (error) {
-			res.status(404).send(Model.name+" not found");
+			res.status(404).send(`${Model.name} not found`);
 		}
 	},
 
@@ -37,7 +37,7 @@ export default (Model) => ({
 			res.status(200).send("OK");
 		} catch (error) {
 			console.log(error)
-			res.status(404).send("Error while inserting "+Model.name);
+			res.status(404).send(`Error while inserting ${Model.name}`);
 		}
 	},
 
@@ -47,7 +47,7 @@ export default (Model) => ({
 			await connection.getRepository(Model).update(req.params.id, req.body);
 			res.status(200).send("OK");
 		} catch (error) {
-			res.status(404).send("Error while updating "+Model.name);
+			res.status(404).send(`Error while updating ${Model.name}`);
 		}
 	},
 	async remove(req: Request, res: Response) {
@@ -56,7 +56,7 @@ export default (Model) => ({
 			await connection.getRepository(Model).delete(req.params.id);
 			res.status(200).send("OK");
 		} catch (error) {
-			res.status(404).send("Error while removing "+Model.name);
+			res.status(404).send(`Error while removing ${Model.name}`);
 		}
 	}
 });

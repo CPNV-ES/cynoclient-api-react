@@ -23,10 +23,10 @@ export function route(app: Application) {
 function createResource(app, Model, name = Model.name) {
     const controller = genericController(Model);
 
-    app.route("/"+name)
+    app.route(`/${name}`)
         .get(controller.getAll)
         .post(controller.create);
-    app.route("/"+name+"/:id")
+    app.route(`/${name}/:id`)
         .get(controller.get)
         .patch(controller.update)
         .delete(controller.remove);
