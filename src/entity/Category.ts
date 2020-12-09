@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from "typeorm";
+import {Breed} from "./Breed"
 
 @Entity({name: 'categories'})
 export class Category {
@@ -11,4 +12,6 @@ export class Category {
         length: 150
     }) 
     noun: string;
+    @OneToMany(() => Breed, breed => breed.category)
+    breeds: Breed[];
 }
