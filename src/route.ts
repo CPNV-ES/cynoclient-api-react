@@ -21,7 +21,7 @@ export function route(app: Application) {
         .get(clientController.getAll)
         .post(clientController.create);
 
-    app.route("/clients/:clientId")
+    app.route("/clients/:id")
         .get(clientController.get)
         .patch(clientController.update)
         .delete(clientController.remove);
