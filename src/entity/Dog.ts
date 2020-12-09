@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from "typeorm";
+import { Client } from "./Client"
 
 @Entity({name: 'dogs'})
 export class Dog {
@@ -44,8 +45,10 @@ export class Dog {
     isDead: boolean
     @Column({
         type: "int"
-    })  
-    id_client: number
+    })
+    @ManyToOne(() => Client)
+    @JoinColumn({name: "id_client"})
+    client: Client;
     @Column({
         type: "int",
     })  
