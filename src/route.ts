@@ -1,4 +1,3 @@
-import * as localityController from "./controller/locality.controller";
 import genericController from "./controller/generic.controller";
 import { Application } from "express";
 
@@ -8,6 +7,7 @@ import {Disease} from "./entity/Disease";
 import {Breed} from "./entity/Breed";
 import {Service} from "./entity/Service";
 import {Consultation} from "./entity/Consultation";
+import {Locality} from "./entity/Locality";
 
 export function route(app: Application) {
 
@@ -17,14 +17,7 @@ export function route(app: Application) {
     createResource(app, Breed);
     createResource(app, Service);
     createResource(app, Consultation);
-
-    app.route("/localities")
-        .get(localityController.getAll)
-        .post(localityController.create);
-    app.route("/localities/:localityId")
-        .get(localityController.get)
-        .patch(localityController.update)
-        .delete(localityController.remove);
+    createResource(app, Locality);
 }
 
 function createResource(app, Model, name = Model.name) {
