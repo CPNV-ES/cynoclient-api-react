@@ -1,9 +1,12 @@
 import * as dogController from "./controller/dog.controller";
-import * as clientController from "./controller/client.controller";
 import * as breedController from "./controller/breed.controller";
 import * as diseasesController from "./controller/diseases.controller";
 import * as localityController from "./controller/locality.controller";
+import genericController from "./controller/generic.controller";
 import { Application } from "express";
+
+import {Client} from "./entity/Client";
+const clientController = genericController(Client)
 
 export function route(app: Application) {
     app.route("/dogs")
