@@ -1,11 +1,12 @@
 import {Request, Response} from "express";
 import {getConnection} from "./db.controller";
 import {Breed} from "../entity/Breed";
+import {} from "../entity/Category"
 
 export async function getAll(req: Request, res: Response) {
     const connection = await getConnection();
     try {
-        const diseases = await connection.getRepository(Breed).find();
+        const diseases = await connection.getRepository(Breed).find({relations: ["category"]});
         res.status(200).send(diseases);
     } catch(error) {
         res.status(404).send("Error");
@@ -15,7 +16,7 @@ export async function getAll(req: Request, res: Response) {
 export async function get(req: Request, res: Response) {
     const connection = await getConnection();
     try {
-        const disease = await connection.getRepository(Breed).findOne(req.params.breedId);
+        const disease = await connection.getRepository(Breed).findOne(req.params.breedId, {relations: ["category"]});
         res.status(200).send(disease);
     } catch(error) {
         res.status(404).send("Disease not found");

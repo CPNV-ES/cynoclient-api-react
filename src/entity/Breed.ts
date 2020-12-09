@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from "typeorm";
+import {Category} from "./Category"
 
 @Entity({name: 'breeds'})
 export class Breed {
@@ -23,11 +24,9 @@ export class Breed {
         length: 50,
     })  
     noun: string
-    @Column({
-        type: "int",
-        nullable: true
-    })  
-    id_category: number
+    @ManyToOne(() => Category,{nullable: true})
+    @JoinColumn({name: "id_category"})
+    category: Category;
     @Column({
         type: "varchar",
         length: 255,
