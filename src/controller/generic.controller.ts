@@ -6,9 +6,9 @@ export default (Model) => ({
 		const connection = await getConnection();
 		try {
 			let data;
-			if (req.query.with) {
+			if (req.query.with)
 				data = await connection.getRepository(Model).find({relations: req.query.with});
-			} else
+			else
 				data = await connection.getRepository(Model).find();
 			res.status(200).send(data);
 		} catch (error) {
@@ -20,9 +20,9 @@ export default (Model) => ({
 		const connection = await getConnection();
 		try {
 			let data;
-			if (req.query.with) {
+			if (req.query.with)
 				data = await connection.getRepository(Model).findOne(req.params.id, {relations: req.query.with});
-			} else
+			else
 				data = await connection.getRepository(Model).findOne(req.params.id);
 			res.status(200).send(data);
 		} catch (error) {
