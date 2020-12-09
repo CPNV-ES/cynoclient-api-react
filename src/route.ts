@@ -1,48 +1,22 @@
-import * as dogController from "./controller/dog.controller";
-import * as breedController from "./controller/breed.controller";
-import * as diseasesController from "./controller/diseases.controller";
 import * as localityController from "./controller/locality.controller";
 import genericController from "./controller/generic.controller";
 import { Application } from "express";
 
 import {Client} from "./entity/Client";
-const clientController = genericController(Client)
+import {Dog} from "./entity/Dog";
+import {Disease} from "./entity/Disease";
+import {Breed} from "./entity/Breed";
+import {Service} from "./entity/Service";
+import {Consultation} from "./entity/Consultation";
 
 export function route(app: Application) {
-    app.route("/dogs")
-        .get(dogController.getAll)
-        .post(dogController.create);
-    app.route("/dogs/:dogId")
-        .get(dogController.get)
-        .patch(dogController.update)
-        .delete(dogController.remove);
 
-    app.route("/clients")
-        .get(clientController.getAll)
-        .post(clientController.create);
-
-    app.route("/clients/:id")
-        .get(clientController.get)
-        .patch(clientController.update)
-        .delete(clientController.remove);
-
-    app.route("/diseases")
-        .get(diseasesController.getAll)
-        .post(diseasesController.create);
-
-    app.route("/diseases/:diseaseId")
-        .get(diseasesController.get)
-        .patch(diseasesController.update)
-        .delete(diseasesController.remove);
-
-    app.route("/breeds")
-        .get(breedController.getAll)
-        .post(breedController.create);
-
-    app.route("/breeds/:breedId")
-        .get(breedController.get)
-        .patch(breedController.update)
-        .delete(breedController.remove);
+    createResource(app, Client);
+    createResource(app, Dog);
+    createResource(app, Disease);
+    createResource(app, Breed);
+    createResource(app, Service);
+    createResource(app, Consultation);
 
     app.route("/localities")
         .get(localityController.getAll)
@@ -51,4 +25,16 @@ export function route(app: Application) {
         .get(localityController.get)
         .patch(localityController.update)
         .delete(localityController.remove);
+}
+
+function createResource(app, Model, name = Model.name) {
+    const controller = genericController(Model);
+
+    app.route("/"+name)
+        .get(controller.getAll)
+        .post(controller.create);
+    app.route("/"+name+"/:id")
+        .get(controller.get)
+        .patch(controller.update)
+        .delete(controller.remove);
 }

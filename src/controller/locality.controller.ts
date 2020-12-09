@@ -3,21 +3,24 @@ import { getConnection } from "./db.controller";
 import { Locality } from "../entity/Locality";
 
 export async function getAll(req: Request, res: Response) {
+	let localities;
+	let whereClause;
 	const connection = await getConnection();
+
 	try {
 		if (req.query.seek) {
 			if (isNaN(parseInt(req.query.seek + ""))) {
-				var whereClause = "locality.noun LIKE :val"
+				whereClause = "locality.noun LIKE :val";
 			} else {
-				var whereClause = "locality.zip LIKE :val"
+				whereClause = "locality.zip LIKE :val";
 			}
-			var localities = await connection.getRepository(Locality)
+			localities = await connection.getRepository(Locality)
 				.createQueryBuilder("locality")
 				.where(whereClause, { val: `${req.query.seek}%` })
 				.limit(req.query.limit || 10)
 				.getMany();
 		} else {
-			var localities = await connection.getRepository(Locality).find();
+			localities = await connection.getRepository(Locality).find();
 		}
 		res.status(200).send(localities);
 	} catch (error) {
