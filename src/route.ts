@@ -11,16 +11,16 @@ import {Locality} from "./entity/Locality";
 
 export function route(app: Application) {
 
-    createResource(app, Client);
-    createResource(app, Dog);
-    createResource(app, Disease);
-    createResource(app, Breed);
-    createResource(app, Service);
-    createResource(app, Consultation);
-    createResource(app, Locality);
+    createResource(app, Client, "clients");
+    createResource(app, Dog, "dogs");
+    createResource(app, Disease, "diseases");
+    createResource(app, Breed, "breeds");
+    createResource(app, Service, "services");
+    createResource(app, Consultation, "consultations");
+    createResource(app, Locality, "localities");
 }
 
-function createResource(app, Model, name = Model.name) {
+function createResource(app, Model, name) {
     const controller = genericController(Model);
 
     app.route(`/${name}`)
