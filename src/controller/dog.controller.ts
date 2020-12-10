@@ -15,7 +15,7 @@ export async function getAll(req: Request, res: Response) {
 export async function get(req: Request, res: Response) {
 	const connection = await getConnection();
 	try {
-		const dog = await connection.getRepository(Dog).findOne(req.params.dogId);
+		const dog = await connection.getRepository(Dog).findOne(req.params.dogId, {relations: ["client"]});
 		res.status(200).send(dog);
 	} catch (error) {
 		res.status(404).send("Dog not found");

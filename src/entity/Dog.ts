@@ -1,6 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from "typeorm";
-import { Client } from "./Client"
-
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
+import {Client} from "./Client"
+import {Disease} from "./Disease"
 @Entity({name: 'dogs'})
 export class Dog {
     @PrimaryGeneratedColumn({
@@ -46,7 +46,7 @@ export class Dog {
     @Column({
         type: "int"
     })
-    @ManyToOne(() => Client)
+    @ManyToOne(() => Client,{nullable: true})
     @JoinColumn({name: "id_client"})
     client: Client;
     @Column({
@@ -58,4 +58,17 @@ export class Dog {
         nullable: true
     })  
     crossbreed: number
+    @ManyToMany(() => Disease)
+    @JoinTable({
+        name: "clients_take_services",
+        joinColumn: {
+            name: "id_dog",
+            referencedColumnName: "id"
+        },
+        inverseJoinColumn: {
+            name: "id_disease",
+            referencedColumnName: "id"
+        }
+    })
+    diseases: Disease[];
 }
