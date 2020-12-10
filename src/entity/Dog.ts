@@ -45,7 +45,7 @@ export class Dog {
         type: "boolean"
     })  
     isDead: boolean
-    @ManyToOne(() => Client,{nullable: true})
+    @ManyToOne(() => Client)
     @JoinColumn({name: "id_client"})
     client: Client;
     @ManyToOne(() => Breed)
