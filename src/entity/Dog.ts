@@ -1,6 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
 import {Client} from "./Client"
 import {Disease} from "./Disease"
+import {Breed} from "./Breed"
 @Entity({name: 'dogs'})
 export class Dog {
     @PrimaryGeneratedColumn({
@@ -43,21 +44,16 @@ export class Dog {
         type: "boolean"
     })  
     isDead: boolean
-    @Column({
-        type: "int"
-    })
     @ManyToOne(() => Client,{nullable: true})
     @JoinColumn({name: "id_client"})
     client: Client;
-    @Column({
-        type: "int",
-    })  
-    breed: number
-    @Column({
-        type: "int",
-        nullable: true
-    })  
-    crossbreed: number
+    @ManyToOne(() => Breed)
+    @JoinColumn({name: "breed"})
+    breed: Breed;
+    @ManyToOne(() => Breed,{nullable: true})
+    @JoinColumn({name: "crossbreed"})
+    crossbreed: Breed
+    
     @ManyToMany(() => Disease)
     @JoinTable({
         name: "clients_take_services",

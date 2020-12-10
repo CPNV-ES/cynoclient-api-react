@@ -1,5 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany} from "typeorm";
 import {Category} from "./Category"
+import {Dog} from "./Dog"
 
 @Entity({name: 'breeds'})
 export class Breed {
@@ -85,5 +86,7 @@ export class Breed {
     })  
     life_expectancy: number
    
-    
+    @OneToMany(() => Dog, dog => dog.breed)
+    @OneToMany(() => Dog, dog => dog.crossbreed)
+    dogs: Dog[];
 }
