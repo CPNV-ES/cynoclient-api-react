@@ -12,3 +12,7 @@ Mettre à la fin de l'url `?with[]=nom_des_relations_espacées_par_des_virgules`
 Par exemple: 
 
 `/dogs?with[]=client` : Récupére le client associé au dog
+
+Récupérer plusieurs relations :
+
+`/dogs?with[]=client&with[]=dog`
