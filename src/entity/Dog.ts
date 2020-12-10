@@ -1,5 +1,6 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from "typeorm";
 import { Client } from "./Client"
+import {Breed} from "./Breed";
 
 @Entity({name: 'dogs'})
 export class Dog {
@@ -46,10 +47,9 @@ export class Dog {
     @ManyToOne(() => Client)
     @JoinColumn({name: "id_client"})
     client: Client;
-    @Column({
-        type: "int",
-    })  
-    breed: number
+    @ManyToOne(() => Breed)
+    @JoinColumn({name: "breed"})
+    breed: Breed
     @Column({
         type: "int",
         nullable: true
