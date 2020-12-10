@@ -50,9 +50,7 @@ export class Dog {
     @ManyToOne(() => Breed)
     @JoinColumn({name: "breed"})
     breed: Breed
-    @Column({
-        type: "int",
-        nullable: true
-    })  
-    crossbreed: number
+    @ManyToOne(() => Breed)
+    @JoinColumn({name: "crossbreed"})
+    crossbreed: Breed
 }
