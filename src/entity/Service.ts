@@ -1,5 +1,6 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany} from "typeorm";
 import {Locality} from "./Locality"
+import {Consultation} from "./Consultation"
 
 @Entity({name: 'services'})
 export class Service {
@@ -35,4 +36,7 @@ export class Service {
     @ManyToOne(() => Locality)
     @JoinColumn({name: "id_locality"})
     locality: Locality;
+
+    @OneToMany(() => Consultation, consultation => consultation.service)
+    consultations: Consultation[];
 }
