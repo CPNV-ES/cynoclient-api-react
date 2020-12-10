@@ -1,6 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany} from "typeorm";
 import {Locality} from "./Locality"
 import {Dog} from "./Dog"
+import {Client_take_service} from "./Client_take_service"
 
 @Entity({name: 'clients'})
 export class Client {
@@ -46,4 +47,6 @@ export class Client {
 
     @OneToMany(() => Dog, dog => dog.client)
     dogs: Dog[];
+    @OneToMany(() => Client_take_service, client_take_service => client_take_service.client)
+    client_take_service: Client_take_service[];
 }
