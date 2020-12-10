@@ -11,10 +11,9 @@ export class Client_take_service {
     @ManyToOne(() => Client)
     @JoinColumn({name: "id_client"})
     client: Client;
-    @Column({
-        type: "int"
-    })  
-    id_service: number
+    @ManyToOne(() => Service)
+    @JoinColumn({name: "id_service"})
+    service: Service;
     @Column({
         type: "int"
     })  
