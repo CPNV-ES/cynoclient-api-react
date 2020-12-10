@@ -43,9 +43,6 @@ export class Dog {
         type: "boolean"
     })  
     isDead: boolean
-    @Column({
-        type: "int"
-    })
     @ManyToOne(() => Client)
     @JoinColumn({name: "id_client"})
     client: Client;
