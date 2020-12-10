@@ -41,5 +41,5 @@ export class Service {
     @OneToMany(() => Consultation, consultation => consultation.service)
     consultations: Consultation[];
     @OneToMany(() => Client_take_service, client_take_service => client_take_service.service)
-    client_take_service: Client_take_service[];
+    client_take_services: Client_take_service[];
 }

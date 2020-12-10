@@ -48,5 +48,5 @@ export class Client {
     @OneToMany(() => Dog, dog => dog.client)
     dogs: Dog[];
     @OneToMany(() => Client_take_service, client_take_service => client_take_service.client)
-    client_take_service: Client_take_service[];
+    client_take_services: Client_take_service[];
 }

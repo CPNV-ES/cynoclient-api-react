@@ -14,10 +14,9 @@ export class Client_take_service {
     @ManyToOne(() => Service)
     @JoinColumn({name: "id_service"})
     service: Service;
-    @Column({
-        type: "int"
-    })  
-    dogs_id: number
+    @ManyToOne(() => Dog)
+    @JoinColumn({name: "dogs_id"})
+    dog: Dog;
     @Column({
         name: 'paid',
         type: "boolean"

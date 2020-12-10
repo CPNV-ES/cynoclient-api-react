@@ -1,7 +1,8 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinColumn, JoinTable, OneToMany} from "typeorm";
 import {Client} from "./Client"
 import {Disease} from "./Disease"
 import {Breed} from "./Breed"
+import {Client_take_service} from "./Client_take_service"
 @Entity({name: 'dogs'})
 export class Dog {
     @PrimaryGeneratedColumn({
@@ -67,4 +68,6 @@ export class Dog {
         }
     })
     diseases: Disease[];
+    @OneToMany(() => Client_take_service, client_take_service => client_take_service.service)
+    client_take_services: Client_take_service[];
 }
