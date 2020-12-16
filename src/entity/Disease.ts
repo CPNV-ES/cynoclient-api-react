@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable} from "typeorm";
+import {Dog} from "./Dog"
 
 @Entity({name: 'diseases'})
 export class Disease {
@@ -41,4 +42,17 @@ export class Disease {
         type: "boolean"
     })  
     isZoonosis: boolean
+    @ManyToMany(() => Dog)
+    @JoinTable({
+        name: "clients_take_services",
+        joinColumn: {
+            name: "id_disease",
+            referencedColumnName: "id"
+        },
+        inverseJoinColumn: {
+            name: "id_dog",
+            referencedColumnName: "id"
+        }
+    })
+    diseases: Dog[];
 }

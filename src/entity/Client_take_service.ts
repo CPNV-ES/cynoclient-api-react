@@ -1,23 +1,22 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
-
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from "typeorm";
+import {Client} from "./Client" 
+import {Service} from "./Service" 
+import {Dog} from "./Dog" 
 @Entity({name: 'clients_take_services'})
 export class Client_take_service {
     @PrimaryGeneratedColumn({
         type: "int"
     })  
     id: number
-    @Column({
-        type: "int"
-    })  
-    id_client: number
-    @Column({
-        type: "int"
-    })  
-    id_service: number
-    @Column({
-        type: "int"
-    })  
-    dogs_id: number
+    @ManyToOne(() => Client)
+    @JoinColumn({name: "id_client"})
+    client: Client;
+    @ManyToOne(() => Service)
+    @JoinColumn({name: "id_service"})
+    service: Service;
+    @ManyToOne(() => Dog)
+    @JoinColumn({name: "dogs_id"})
+    dog: Dog;
     @Column({
         name: 'paid',
         type: "boolean"

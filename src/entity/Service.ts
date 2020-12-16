@@ -1,4 +1,7 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany} from "typeorm";
+import {Locality} from "./Locality"
+import {Consultation} from "./Consultation"
+import {Client_take_service} from "./Client_take_service"
 
 @Entity({name: 'services'})
 export class Service {
@@ -31,8 +34,12 @@ export class Service {
         nullable: true
     })  
     street: string
-    @Column({
-        type: "int"
-    })  
-    id_locality: number
+    @ManyToOne(() => Locality)
+    @JoinColumn({name: "id_locality"})
+    locality: Locality;
+
+    @OneToMany(() => Consultation, consultation => consultation.service)
+    consultations: Consultation[];
+    @OneToMany(() => Client_take_service, client_take_service => client_take_service.service)
+    client_take_services: Client_take_service[];
 }
