@@ -8,7 +8,8 @@ REST API for cyno
     
 ## Récupérer les relations
 
-Mettre à la fin de l'url `?with[]=nom_des_relations_espacées_par_des_virgules`.
+Mettre à la fin de l'url `?with[]=nom_des_relations`.
 Par exemple: 
 
 `/dogs?with[]=client` : Récupére le client associé au dog
+`/dogs?with[]=client&with[]=service` : Récupére le client associé au dog et au service
