@@ -1,29 +1,43 @@
 const axios = require('axios');
 const API_URL = "http://localhost:8000"
 // clients, dogs, diseases, breeds, services, consultations, localities
-const testString = `TestString_${(new Date()).toISOString()}`
+const testString = ()=>`TestString_${(new Date()).toISOString()}`
+const testBool = ()=>Math.random() < 0.5
+const testEmail = ()=>`${testString()}@gmail.com`
+const testNum*
 const resources = {
     clients:{
-        "firstname": testString,
-        "lastname": testString,
-        "isFemale": false,
-        "email": "loic.viret@gmail.com",
+        "firstname": testString(),
+        "lastname": testString(),
+        "isFemale": testBool(),
+        "email": testEmail(),
         "phone": "+41793440735",
         "street": "Près-les-Bois 26a"
     },
     dogs: {
-        "noun": testString,
+        "noun": testString(),
         "birthdate": "2011-01-01",
-        "isSterilized": true,
-        "isChemical": true,
-        "isFemale": false,
+        "isSterilized": testBool(),
+        "isChemical": testBool(),
+        "isFemale": testBool(),
         "color": "Vert",
-        "isDead": false,
-        "client": 5,
-        "breed": 7,
-        "crossbreed": null
+        "isDead": testBool(),
+        "client": 1,
+        "breed": 1,
+        "crossbreed": testBool()
     },
-    
+    diseases:{
+        "noun": testString(),
+        "description": testString(),
+        "symptoms": testString(),
+        "preventive": testString(),
+        "curative": testString(),
+        "isVaccinable": testBool(),
+        "isZoonosis": testBool()
+    },
+    breeds:{
+
+    },
 }
 async function a() {
     for (const resourceName in resources) {
