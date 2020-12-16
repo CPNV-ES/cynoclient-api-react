@@ -1,4 +1,5 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from "typeorm";
+import {Service} from "./Service"
 
 @Entity({name: 'consultations'})
 export class Consultation {
@@ -41,8 +42,7 @@ export class Consultation {
         nullable: true
     })  
     argumentation: string
-    @Column({
-        type: "int"
-    })  
-    id_service: number
+    @ManyToOne(() => Service)
+    @JoinColumn({name: "id_service"})
+    service: Service;
 }

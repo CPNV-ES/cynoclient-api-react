@@ -1,6 +1,8 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from "typeorm";
-import { Client } from "./Client"
-
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinColumn, JoinTable, OneToMany} from "typeorm";
+import {Client} from "./Client"
+import {Disease} from "./Disease"
+import {Breed} from "./Breed"
+import {Client_take_service} from "./Client_take_service"
 @Entity({name: 'dogs'})
 export class Dog {
     @PrimaryGeneratedColumn({
@@ -46,13 +48,26 @@ export class Dog {
     @ManyToOne(() => Client)
     @JoinColumn({name: "id_client"})
     client: Client;
-    @Column({
-        type: "int",
-    })  
-    breed: number
-    @Column({
-        type: "int",
-        nullable: true
-    })  
-    crossbreed: number
+    @ManyToOne(() => Breed)
+    @JoinColumn({name: "breed"})
+    breed: Breed;
+    @ManyToOne(() => Breed,{nullable: true})
+    @JoinColumn({name: "crossbreed"})
+    crossbreed: Breed
+    
+    @ManyToMany(() => Disease)
+    @JoinTable({
+        name: "clients_take_services",
+        joinColumn: {
+            name: "id_dog",
+            referencedColumnName: "id"
+        },
+        inverseJoinColumn: {
+            name: "id_disease",
+            referencedColumnName: "id"
+        }
+    })
+    diseases: Disease[];
+    @OneToMany(() => Client_take_service, client_take_service => client_take_service.service)
+    client_take_services: Client_take_service[];
 }
