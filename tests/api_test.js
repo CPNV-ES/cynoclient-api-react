@@ -4,7 +4,7 @@ const API_URL = "http://localhost:8000"
 const testString = ()=>`TestString_${(new Date()).toISOString()}`
 const testBool = ()=>Math.random() < 0.5
 const testEmail = ()=>`${testString()}@gmail.com`
-const testNum*
+const testNum = (max = 10)=>Math.round(Math.random() * max)
 const resources = {
     clients:{
         "firstname": testString(),
