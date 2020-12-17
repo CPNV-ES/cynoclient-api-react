@@ -56,7 +56,7 @@ export class Dog {
     @JoinColumn({name: "crossbreed"})
     crossbreed: Breed
 
-    @ManyToMany(() => Disease, {eager: true})
+    @ManyToMany(() => Disease, disease => disease.dogs)
     @JoinTable({
         name: "dogs_have_diseases",
         joinColumn: {
