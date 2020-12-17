@@ -1,10 +1,10 @@
 const axios = require('axios');
 const API_URL = "http://localhost:8000"
-// clients, dogs, diseases, breeds, services, consultations, localities
 const testString = ()=>`TestString_${(new Date()).toISOString()}`
 const testBool = ()=>Math.random() < 0.5
 const testEmail = ()=>`${testString()}@gmail.com`
 const testNum = (max = 10)=>Math.round(Math.random() * max)
+const testDate = ()=>`201${testNum(9)}-${testNum(12)}-${testNum(28)}`;
 const resources = {
     clients:{
         "firstname": testString(),
@@ -12,15 +12,15 @@ const resources = {
         "isFemale": testBool(),
         "email": testEmail(),
         "phone": "+41793440735",
-        "street": "Près-les-Bois 26a"
+        "street": testString()
     },
     dogs: {
         "noun": testString(),
-        "birthdate": "2011-01-01",
+        "birthdate": testDate(),
         "isSterilized": testBool(),
         "isChemical": testBool(),
         "isFemale": testBool(),
-        "color": "Vert",
+        "color": testString(),
         "isDead": testBool(),
         "client": 1,
         "breed": 1,
@@ -36,10 +36,48 @@ const resources = {
         "isZoonosis": testBool()
     },
     breeds:{
-
+        "link": testString(),
+        "picture": testString(),
+        "noun": testString(),
+        "morphotype": testString(),
+        "classification": testString(),
+        "min_size_female": testNum(50),
+        "max_size_female": testNum(50),
+        "min_size_male": testNum(50),
+        "max_size_male": testNum(50),
+        "min_weight_female": testNum(20),
+        "max_weight_female": testNum(20),
+        "min_weight_male": testNum(20),
+        "max_weight_male": testNum(20),
+        "life_expectancy": testNum(25)
+    },
+    services: {
+        "moment": testDate(),
+        "duration": testNum(100) / 10,
+        "type": testString(),
+        "description": testString(),
+        "street": testString(),
+        "locality": 1
+    },
+    consultations: {
+        "situation": testString(),
+        "goal": testString(),
+        "deadline": testString(),
+        "solution": testString(),
+        "medicines": testString(),
+        "argumentation": testString(),
+        "service": 1
+    },
+    localities: {
+        "noun": testString(),
+        "zip": testNum(10000),
+        "zip_complement": 0,
+        "toponym": testString(),
+        "department": "TE",
+        "language": testString()
     },
 }
-async function a() {
+async function run() {
     for (const resourceName in resources) {
         const resourceData = resources[resourceName];
         const resourceBaseUrl = `${API_URL}/${resourceName}`;
@@ -98,4 +136,4 @@ async function a() {
         }
     }
 }
-a();
+run();
