@@ -42,17 +42,8 @@ export class Disease {
         type: "boolean"
     })  
     isZoonosis: boolean
-    @ManyToMany(() => Dog)
-    @JoinTable({
-        name: "clients_take_services",
-        joinColumn: {
-            name: "id_disease",
-            referencedColumnName: "id"
-        },
-        inverseJoinColumn: {
-            name: "id_dog",
-            referencedColumnName: "id"
-        }
-    })
-    diseases: Dog[];
+
+    // Inverse relation is defined in dog
+    @ManyToMany(() => Dog, dog => dog.diseases)
+    dogs: Dog[];
 }
