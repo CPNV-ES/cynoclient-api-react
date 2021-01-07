@@ -44,7 +44,9 @@ export default (Model) => ({
 	async update(req: Request, res: Response) {
 		const connection = await getConnection();
 		try {
-			await connection.getRepository(Model).update(req.params.id, req.body);
+			// Do not use insert : it does not work with many-to-many relations
+			// (typeorm is really amazing)
+			await connection.getRepository(Model).save(req.body);
 			res.status(200).send("OK");
 		} catch (error) {
 			res.status(404).send(`Error while updating ${Model.name}`);
