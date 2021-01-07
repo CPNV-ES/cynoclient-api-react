@@ -56,7 +56,9 @@ export class Dog {
     @JoinColumn({name: "crossbreed"})
     crossbreed: Breed
 
-    @ManyToMany(() => Disease, disease => disease.dogs)
+    @ManyToMany(() => Disease, (disease: Disease) => disease.dogs,
+        // Update the diseases list of the dog when the dog is updated
+        { cascade: true })
     @JoinTable({
         name: "dogs_have_diseases",
         joinColumn: {
