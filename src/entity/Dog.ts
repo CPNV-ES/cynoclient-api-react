@@ -3,6 +3,7 @@ import {Client} from "./Client"
 import {Disease} from "./Disease"
 import {Breed} from "./Breed"
 import {Client_take_service} from "./Client_take_service"
+import {Service} from "./Service";
 
 @Entity({name: 'dogs'})
 export class Dog {
@@ -72,6 +73,22 @@ export class Dog {
     })
     diseases: Disease[];
 
-    @OneToMany(() => Client_take_service, client_take_service => client_take_service.service)
-    client_take_services: Client_take_service[];
+    @OneToMany(() => Client_take_service, client_take_service => client_take_service.dog)
+    clients_take_services: Client_take_service[];
+
+    @ManyToMany(() => Service, (service: Service) => service.dogs,
+        // Update the diseases list of the dog when the dog is updated
+        { cascade: true })
+    @JoinTable({
+        name: "clients_take_services",
+        joinColumn: {
+            name: "dogs_id",
+            referencedColumnName: "id",
+        },
+        inverseJoinColumn: {
+            name: "id_service",
+            referencedColumnName: "id",
+        }
+    })
+    services: Service[];
 }
