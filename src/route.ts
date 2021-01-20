@@ -8,6 +8,7 @@ import {Breed} from "./entity/Breed";
 import {Service} from "./entity/Service";
 import {Consultation} from "./entity/Consultation";
 import {Locality} from "./entity/Locality";
+import {Client_take_service} from "./entity/Client_take_service";
 
 export function route(app: Application) {
 
@@ -18,6 +19,7 @@ export function route(app: Application) {
     createResource(app, Service, "services");
     createResource(app, Consultation, "consultations");
     createResource(app, Locality, "localities");
+    createResource(app, Client_take_service, "clients_take_services");
 }
 
 function createResource(app, Model, name) {
